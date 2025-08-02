@@ -1,0 +1,27 @@
+{
+  "name": "PG Seguros",
+  "short_name": "PG Seguros",
+  "description": "Corretora de seguros com mais de 25 anos de experiência. Oferecemos as melhores opções das principais seguradoras do mercado.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e40af",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon-pro.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon-pro.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon-pro.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+} 
