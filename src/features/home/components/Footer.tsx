@@ -227,13 +227,13 @@ const Footer = () => {
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6">
               <button 
                 className="hover:text-blue-300 transition-colors text-center sm:text-left"
-                onClick={() => window.open('/privacy.html', '_blank')}
+                onClick={() => window.location.href = '/privacy'}
               >
                 Política de Privacidade
               </button>
               <button 
                 className="hover:text-blue-300 transition-colors text-center sm:text-left"
-                onClick={() => window.open('/terms.html', '_blank')}
+                onClick={() => window.location.href = '/terms'}
               >
                 Termos de Uso
               </button>
