@@ -83,51 +83,61 @@ const DiferenciaisSection = () => {
   ];
 
   return (
-    <section id="diferenciais" className="relative py-32 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30" />
-      <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100/40 to-transparent rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-purple-100/40 to-transparent rounded-full blur-3xl" />
+    <section id="diferenciais" className="relative py-16 sm:py-24 lg:py-32 overflow-hidden">
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-orange-50/30" />
       
-      <div className="container mx-auto px-4 relative z-10">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 right-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-orange-400/10 to-red-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-tl from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-64 h-48 sm:h-64 bg-gradient-to-br from-indigo-400/8 to-orange-400/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        
+        {/* Floating particles */}
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-orange-400/30 rounded-full animate-float"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-1 h-1 bg-red-400/40 rounded-full animate-float" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-2/3 left-1/3 w-1.5 h-1.5 bg-indigo-400/35 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
+      </div>
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <Star className="w-4 h-4" />
+          {/* Enhanced Section Header */}
+          <div className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-in-up' : 'opacity-0 translate-y-10'}`}>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6 animate-fade-in-scale">
+              <Star className="w-3 h-3 sm:w-4 sm:h-4" />
               Diferenciais Exclusivos
             </div>
-            <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent mb-6">
+            <h2 className="text-3xl sm:text-5xl lg:text-7xl font-bold bg-gradient-to-r from-slate-900 via-orange-900 to-slate-900 bg-clip-text text-transparent mb-4 sm:mb-6">
               Por que escolher a PG Seguros?
             </h2>
-            <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-              Nossa missão é <span className="font-semibold text-blue-600">simplificar o mundo dos seguros</span>, 
-              oferecendo soluções personalizadas com o melhor atendimento do mercado.
+            <p className="text-base sm:text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed px-4">
+              Nossos diferenciais fazem a diferença na hora de proteger o que é mais importante. 
+              <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600"> Conheça nossas vantagens</span> exclusivas.
             </p>
           </div>
 
           {/* Diferenciais Grid */}
-          <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16 sm:mb-20 lg:mb-24 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {diferenciais.map((diferencial, index) => (
               <Card 
                 key={index} 
-                className="group relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                className="group relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 sm:hover:-translate-y-2"
                 style={{ transitionDelay: diferencial.delay }}
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${diferencial.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                <CardContent className="p-8 relative">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${diferencial.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                      <diferencial.icon className="w-8 h-8 text-white" />
+                <CardContent className="p-6 sm:p-8 relative">
+                  <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${diferencial.color} rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                      <diferencial.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                         {diferencial.title}
                       </h3>
                     </div>
                   </div>
                   
-                  <p className="text-slate-600 leading-relaxed text-lg">
+                  <p className="text-slate-600 leading-relaxed text-sm sm:text-lg">
                     {diferencial.description}
                   </p>
                 </CardContent>
@@ -136,27 +146,27 @@ const DiferenciaisSection = () => {
           </div>
 
           {/* Stats Section */}
-          <div className={`mb-20 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 rounded-3xl p-12 relative overflow-hidden">
+          <div className={`mb-16 sm:mb-20 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 rounded-2xl sm:rounded-3xl p-8 sm:p-12 relative overflow-hidden">
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-10 left-10 w-40 h-40 border border-white/30 rounded-full"></div>
-                <div className="absolute bottom-10 right-10 w-32 h-32 border border-white/30 rounded-full"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/30 rounded-full"></div>
+                <div className="absolute top-10 left-10 w-32 sm:w-40 h-32 sm:h-40 border border-white/30 rounded-full"></div>
+                <div className="absolute bottom-10 right-10 w-24 sm:w-32 h-24 sm:h-32 border border-white/30 rounded-full"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 sm:w-48 h-36 sm:h-48 border border-white/30 rounded-full"></div>
               </div>
               
               <div className="relative">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center">
                   {stats.map((stat, index) => (
                     <div key={index} className="group">
                       <div className="relative">
-                        <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                          <stat.icon className="w-10 h-10 text-white" />
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                          <stat.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                         </div>
-                        <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute -inset-1 sm:-inset-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl sm:rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </div>
-                      <div className="text-4xl font-bold text-white mb-2">{stat.number}</div>
-                      <div className="text-white/90 font-medium">{stat.label}</div>
+                      <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-1 sm:mb-2">{stat.number}</div>
+                      <div className="text-white/90 font-medium text-xs sm:text-sm lg:text-base">{stat.label}</div>
                     </div>
                   ))}
                 </div>
@@ -166,40 +176,40 @@ const DiferenciaisSection = () => {
 
           {/* CTA Section */}
           <div className={`text-center transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl p-12 border border-blue-100/50 relative overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl sm:rounded-3xl p-8 sm:p-12 border border-blue-100/50 relative overflow-hidden">
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-10 left-10 w-40 h-40 border border-blue-300/30 rounded-full"></div>
-                <div className="absolute bottom-10 right-10 w-32 h-32 border border-purple-300/30 rounded-full"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-blue-300/30 rounded-full"></div>
+                <div className="absolute top-10 left-10 w-32 sm:w-40 h-32 sm:h-40 border border-blue-300/30 rounded-full"></div>
+                <div className="absolute bottom-10 right-10 w-24 sm:w-32 h-24 sm:h-32 border border-purple-300/30 rounded-full"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 sm:w-48 h-36 sm:h-48 border border-blue-300/30 rounded-full"></div>
               </div>
               
               <div className="relative">
-                <div className="flex items-center justify-center gap-2 mb-6">
-                  <CheckCircle className="w-6 h-6 text-green-500" />
-                  <span className="text-lg font-semibold text-slate-700">Mais de 1000 clientes já confiaram em nós</span>
-                  <CheckCircle className="w-6 h-6 text-green-500" />
+                <div className="flex items-center justify-center gap-2 mb-4 sm:mb-6">
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
+                  <span className="text-sm sm:text-lg font-semibold text-slate-700">Mais de 1000 clientes já confiaram em nós</span>
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
                   Pronto para Experimentar a Diferença?
                 </h3>
-                <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
+                <p className="text-sm sm:text-lg text-slate-600 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
                   Junte-se aos milhares de clientes que já descobriram como é ter uma corretora 
                   que realmente se importa com suas necessidades.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                   <Button 
                     size="lg" 
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-10 py-4 rounded-xl font-semibold text-lg group"
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg group"
                     onClick={() => handleOpenModal("Consultoria Personalizada")}
                   >
                     Falar com Especialista
-                    <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
                   </Button>
                   <Button 
                     size="lg" 
                     variant="outline" 
-                    className="border-2 border-slate-300 hover:border-blue-400 text-slate-700 px-10 py-4 rounded-xl font-semibold text-lg"
+                    className="border-2 border-slate-300 hover:border-blue-400 text-slate-700 px-8 sm:px-10 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg"
                     onClick={() => handleOpenModal("Comparativo de Seguros")}
                   >
                     Comparar Seguros

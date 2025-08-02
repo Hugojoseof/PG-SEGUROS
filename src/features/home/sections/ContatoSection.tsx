@@ -134,9 +134,9 @@ const ContatoSection = () => {
     {
       icon: Phone,
       title: "Telefone",
-      info: "(11) 99999-9999",
+      info: "(84) 99850-1948",
       subtitle: "Ligue agora",
-      action: () => window.open("tel:+5511999999999"),
+      action: () => window.open("tel:+5584998501948"),
       color: "from-blue-500 to-cyan-500",
       delay: "0ms"
     },
@@ -152,9 +152,9 @@ const ContatoSection = () => {
     {
       icon: MapPin,
       title: "Endereço",
-      info: "São Paulo, SP - Brasil",
+      info: "São Miguel, RN - Brasil",
       subtitle: "Nossa localização",
-      action: () => window.open("https://maps.google.com/?q=São+Paulo,+SP"),
+      action: () => window.open("https://maps.app.goo.gl/R59bTKG2B3SPouyf6"),
       color: "from-emerald-500 to-teal-500",
       delay: "200ms"
     },
@@ -167,61 +167,71 @@ const ContatoSection = () => {
   ];
 
   return (
-    <section id="contato" className="relative py-32 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30" />
-      <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100/40 to-transparent rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-purple-100/40 to-transparent rounded-full blur-3xl" />
+    <section id="contato" className="relative py-16 sm:py-24 lg:py-32 overflow-hidden">
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-emerald-50/30" />
       
-      <div className="container mx-auto px-4 relative z-10">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-emerald-400/10 to-teal-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-tl from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-64 h-48 sm:h-64 bg-gradient-to-br from-teal-400/8 to-emerald-400/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        
+        {/* Floating particles */}
+        <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-emerald-400/30 rounded-full animate-float"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-1 h-1 bg-teal-400/40 rounded-full animate-float" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-2/3 right-1/3 w-1.5 h-1.5 bg-cyan-400/35 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
+      </div>
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <MessageCircle className="w-4 h-4" />
-              Fale Conosco
+          {/* Enhanced Header */}
+          <div className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-in-up' : 'opacity-0 translate-y-10'}`}>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6 animate-fade-in-scale">
+              <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" />
+              Entre em contato conosco
             </div>
-            <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent mb-6">
-              Entre em Contato
+            <h2 className="text-3xl sm:text-5xl lg:text-7xl font-bold bg-gradient-to-r from-slate-900 via-emerald-900 to-slate-900 bg-clip-text text-transparent mb-4 sm:mb-6">
+              Contato
             </h2>
-            <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-              Estamos prontos para ajudar você a encontrar a <span className="font-semibold text-blue-600">proteção ideal</span>. 
-              Entre em contato conosco e receba uma cotação personalizada.
+            <p className="text-base sm:text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed px-4">
+              Estamos aqui para ajudar você a encontrar a proteção ideal. 
+              <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600"> Entre em contato</span> e vamos conversar sobre suas necessidades.
             </p>
           </div>
 
           {/* Trust Factors */}
-          <div className={`flex justify-center gap-8 mb-16 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {trustFactors.map((factor, index) => (
-              <div key={index} className="flex items-center gap-3 bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-slate-200/50">
-                <div className={`w-8 h-8 bg-gradient-to-br ${factor.color} rounded-full flex items-center justify-center`}>
-                  <factor.icon className="w-4 h-4 text-white" />
+              <div key={index} className="flex items-center gap-2 sm:gap-3 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 sm:py-3 shadow-lg border border-slate-200/50">
+                <div className={`w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br ${factor.color} rounded-full flex items-center justify-center flex-shrink-0`}>
+                  <factor.icon className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                 </div>
-                <span className="text-sm font-medium text-slate-700">{factor.text}</span>
+                <span className="text-xs sm:text-sm font-medium text-slate-700 whitespace-nowrap">{factor.text}</span>
               </div>
             ))}
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
             {/* Contact Form */}
             <div className={`transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <Card className="border-0 shadow-2xl bg-white/95 backdrop-blur-sm">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-8">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                      <Send className="w-6 h-6 text-white" />
+                <CardContent className="p-4 sm:p-6 lg:p-8">
+                  <div className="flex items-center gap-3 mb-6 sm:mb-8">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                      <Send className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-slate-900">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">
                         Solicite sua Cotação
                       </h3>
-                      <p className="text-slate-600">Preencha o formulário e entraremos em contato</p>
+                      <p className="text-sm sm:text-base text-slate-600">Preencha o formulário e entraremos em contato</p>
                     </div>
                   </div>
                   
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                     <div className="space-y-2">
-                      <Label htmlFor="nome" className="text-slate-700 font-medium">Nome Completo *</Label>
+                      <Label htmlFor="nome" className="text-slate-700 font-medium text-sm sm:text-base">Nome Completo *</Label>
                       <Input
                         id="nome"
                         value={formData.nome}
@@ -232,9 +242,9 @@ const ContatoSection = () => {
                       />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="telefone" className="text-slate-700 font-medium">Telefone *</Label>
+                        <Label htmlFor="telefone" className="text-slate-700 font-medium text-sm sm:text-base">Telefone *</Label>
                         <Input
                           id="telefone"
                           value={formData.telefone}
@@ -245,7 +255,7 @@ const ContatoSection = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email" className="text-slate-700 font-medium">Email</Label>
+                        <Label htmlFor="email" className="text-slate-700 font-medium text-sm sm:text-base">Email</Label>
                         <Input
                           id="email"
                           type="email"
@@ -258,7 +268,7 @@ const ContatoSection = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="tipoSeguro" className="text-slate-700 font-medium">Tipo de Seguro *</Label>
+                      <Label htmlFor="tipoSeguro" className="text-slate-700 font-medium text-sm sm:text-base">Tipo de Seguro *</Label>
                       <Select
                         value={formData.tipoSeguro}
                         onValueChange={(value) => handleInputChange("tipoSeguro", value)}
@@ -278,7 +288,7 @@ const ContatoSection = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="mensagem" className="text-slate-700 font-medium">Mensagem</Label>
+                      <Label htmlFor="mensagem" className="text-slate-700 font-medium text-sm sm:text-base">Mensagem</Label>
                       <Textarea
                         id="mensagem"
                         value={formData.mensagem}
@@ -292,18 +302,18 @@ const ContatoSection = () => {
                     <Button 
                       type="submit" 
                       size="lg" 
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 text-lg font-semibold group disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold group disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (
                         <>
-                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                          <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
                           Enviando...
                         </>
                       ) : (
                         <>
                           Enviar Mensagem
-                          <Send className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                          <Send className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                         </>
                       )}
                     </Button>
@@ -313,13 +323,13 @@ const ContatoSection = () => {
             </div>
 
             {/* Contact Info */}
-            <div className={`space-y-8 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+            <div className={`space-y-6 sm:space-y-8 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               {/* Contact Methods */}
               <div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-8">
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-6 sm:mb-8">
                   Informações de Contato
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {contactInfo.map((contact, index) => (
                     <Card
                       key={index}
@@ -327,17 +337,17 @@ const ContatoSection = () => {
                       onClick={contact.action}
                       style={{ transitionDelay: contact.delay }}
                     >
-                      <CardContent className="p-6">
-                        <div className="flex items-center gap-4">
-                          <div className={`w-16 h-16 bg-gradient-to-br ${contact.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                            <contact.icon className="w-8 h-8 text-white" />
+                      <CardContent className="p-4 sm:p-6">
+                        <div className="flex items-center gap-3 sm:gap-4">
+                          <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${contact.color} rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg flex-shrink-0`}>
+                            <contact.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                           </div>
-                          <div className="flex-1">
-                            <h4 className="font-bold text-slate-900 text-lg">{contact.title}</h4>
-                            <p className="text-slate-600 font-medium">{contact.info}</p>
-                            <p className="text-sm text-slate-500">{contact.subtitle}</p>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-bold text-slate-900 text-base sm:text-lg">{contact.title}</h4>
+                            <p className="text-slate-600 font-medium text-sm sm:text-base break-all">{contact.info}</p>
+                            <p className="text-xs sm:text-sm text-slate-500">{contact.subtitle}</p>
                           </div>
-                          <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300" />
+                          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" />
                         </div>
                       </CardContent>
                     </Card>
@@ -347,22 +357,22 @@ const ContatoSection = () => {
 
               {/* WhatsApp CTA */}
               <Card className="border-0 bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-2xl">
-                <CardContent className="p-8 text-center">
-                  <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <MessageCircle className="w-10 h-10 text-white" />
+                <CardContent className="p-6 sm:p-8 text-center">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                    <MessageCircle className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                   </div>
-                  <h4 className="text-2xl font-bold mb-4">
+                  <h4 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
                     Prefere falar via WhatsApp?
                   </h4>
-                  <p className="mb-8 text-lg opacity-90">
+                  <p className="mb-6 sm:mb-8 text-base sm:text-lg opacity-90">
                     Entre em contato direto conosco pelo WhatsApp para um atendimento mais rápido e personalizado.
                   </p>
                   <Button
                     size="lg"
-                    className="bg-white text-green-600 hover:bg-slate-100 px-8 py-4 text-lg font-semibold group"
-                    onClick={() => window.open("https://wa.me/5511999999999?text=Olá! Gostaria de falar sobre seguros.", "_blank")}
+                    className="bg-white text-green-600 hover:bg-slate-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold group"
+                    onClick={() => window.open("https://wa.me/5584998501948?text=Olá! Gostaria de falar sobre seguros.", "_blank")}
                   >
-                    <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                    <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:scale-110 transition-transform" />
                     Falar no WhatsApp
                   </Button>
                 </CardContent>
@@ -370,28 +380,28 @@ const ContatoSection = () => {
 
               {/* Business Hours */}
               <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-white" />
+                <CardContent className="p-6 sm:p-8">
+                  <div className="flex items-center gap-3 mb-4 sm:mb-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                      <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold text-slate-900">Horário de Atendimento</h4>
-                      <p className="text-slate-600">Estamos aqui para você</p>
+                      <h4 className="text-lg sm:text-xl font-bold text-slate-900">Horário de Atendimento</h4>
+                      <p className="text-sm sm:text-base text-slate-600">Estamos aqui para você</p>
                     </div>
                   </div>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center py-3 border-b border-slate-100">
-                      <span className="text-slate-700">Segunda à Sexta:</span>
-                      <span className="font-bold text-slate-900">8h às 18h</span>
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="flex justify-between items-center py-2 sm:py-3 border-b border-slate-100">
+                      <span className="text-slate-700 text-sm sm:text-base">Segunda à Sexta:</span>
+                      <span className="font-bold text-slate-900 text-sm sm:text-base">8h às 18h</span>
                     </div>
-                    <div className="flex justify-between items-center py-3 border-b border-slate-100">
-                      <span className="text-slate-700">Sábado:</span>
-                      <span className="font-bold text-slate-900">8h às 12h</span>
+                    <div className="flex justify-between items-center py-2 sm:py-3 border-b border-slate-100">
+                      <span className="text-slate-700 text-sm sm:text-base">Sábado:</span>
+                      <span className="font-bold text-slate-900 text-sm sm:text-base">8h às 12h</span>
                     </div>
-                    <div className="flex justify-between items-center py-3">
-                      <span className="text-slate-700">Domingo:</span>
-                      <span className="font-bold text-slate-900">Fechado</span>
+                    <div className="flex justify-between items-center py-2 sm:py-3">
+                      <span className="text-slate-700 text-sm sm:text-base">Domingo:</span>
+                      <span className="font-bold text-slate-900 text-sm sm:text-base">Fechado</span>
                     </div>
                   </div>
                 </CardContent>

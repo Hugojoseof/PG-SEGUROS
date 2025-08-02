@@ -8,22 +8,26 @@ import DepoimentosSection from "@/features/home/sections/DepoimentosSection";
 import InstagramSection from "@/features/home/sections/InstagramSection";
 import ContatoSection from "@/features/home/sections/ContatoSection";
 import Footer from "@/features/home/components/Footer";
+import AnimatedBackground from "@/shared/components/AnimatedBackground";
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen">
-      <Header />
-      <main>
-        <HeroSection />
-        <ServicosSection />
-        <QuemSomosSection />
-        <PartnersSection />
-        <DiferenciaisSection />
-        <DepoimentosSection />
-        <InstagramSection />
-        <ContatoSection />
-      </main>
-      <Footer />
+    <div className="min-h-screen relative">
+      <AnimatedBackground />
+      <div className="relative z-10">
+        <Header />
+        <main>
+          <HeroSection />
+          <ServicosSection />
+          <QuemSomosSection />
+          <PartnersSection />
+          <DiferenciaisSection />
+          <DepoimentosSection />
+          <InstagramSection />
+          <ContatoSection />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 };

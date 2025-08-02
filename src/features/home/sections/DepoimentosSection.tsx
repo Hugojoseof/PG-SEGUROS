@@ -106,7 +106,7 @@ const DepoimentosSection = () => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
         key={index}
-        className={`w-4 h-4 ${
+        className={`w-3 h-3 sm:w-4 sm:h-4 ${
           index < rating ? "text-yellow-400 fill-current" : "text-gray-300"
         }`}
       />
@@ -118,72 +118,82 @@ const DepoimentosSection = () => {
   const visibleTestimonials = testimonials.slice(startIndex, startIndex + 3);
 
   return (
-    <section id="depoimentos" className="relative py-32 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30" />
-      <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100/40 to-transparent rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-purple-100/40 to-transparent rounded-full blur-3xl" />
+    <section id="depoimentos" className="relative py-16 sm:py-24 lg:py-32 overflow-hidden">
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-purple-50/30" />
       
-      <div className="container mx-auto px-4 relative z-10">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 right-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-tl from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-64 h-48 sm:h-64 bg-gradient-to-br from-indigo-400/8 to-purple-400/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        
+        {/* Floating particles */}
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-purple-400/30 rounded-full animate-float"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-1 h-1 bg-pink-400/40 rounded-full animate-float" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-2/3 left-1/3 w-1.5 h-1.5 bg-indigo-400/35 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
+      </div>
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <Heart className="w-4 h-4" />
-              Depoimentos Reais
-            </div>
-            <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent mb-6">
+          {/* Enhanced Header */}
+          <div className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${isVisible ? 'animate-slide-in-up' : 'opacity-0 translate-y-10'}`}>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6 animate-fade-in-scale">
+              <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
               O que nossos clientes dizem
+            </div>
+            <h2 className="text-3xl sm:text-5xl lg:text-7xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 bg-clip-text text-transparent mb-4 sm:mb-6">
+              Depoimentos
             </h2>
-            <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-              A <span className="font-semibold text-blue-600">satisfação dos nossos clientes</span> é nossa maior conquista. 
-              Veja alguns depoimentos de quem já confia na PG Seguros.
+            <p className="text-base sm:text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed px-4">
+              A satisfação dos nossos clientes é nossa maior conquista. 
+              <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600"> Conheça suas histórias</span> e experiências.
             </p>
           </div>
 
           {/* Testimonials Carousel */}
-          <div className={`mb-24 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`mb-16 sm:mb-20 lg:mb-24 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative">
               {/* Carousel Container */}
-              <div className="grid md:grid-cols-3 gap-8 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
                 {visibleTestimonials.map((testimonial, index) => (
                   <Card 
                     key={startIndex + index} 
-                    className="group relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                    className="group relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 sm:hover:-translate-y-2"
                     style={{ transitionDelay: `${index * 100}ms` }}
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br ${testimonial.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                    <CardContent className="p-8 relative">
+                    <CardContent className="p-6 sm:p-8 relative">
                       {/* Quote Icon */}
-                      <div className="absolute top-6 right-6 opacity-10">
-                        <Quote className="w-12 h-12 text-slate-400" />
+                      <div className="absolute top-4 sm:top-6 right-4 sm:right-6 opacity-10">
+                        <Quote className="w-8 h-8 sm:w-12 sm:h-12 text-slate-400" />
                       </div>
                       
                       {/* Rating */}
-                      <div className="flex items-center mb-4">
+                      <div className="flex items-center mb-3 sm:mb-4">
                         {renderStars(testimonial.rating)}
                       </div>
                       
                       {/* Service Tag */}
-                      <div className={`inline-block bg-gradient-to-r ${testimonial.color} text-white px-4 py-2 rounded-full text-sm font-medium mb-6 shadow-lg`}>
+                      <div className={`inline-block bg-gradient-to-r ${testimonial.color} text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6 shadow-lg`}>
                         {testimonial.service}
                       </div>
                       
                       {/* Testimonial Text */}
-                      <p className="text-slate-600 mb-6 leading-relaxed text-lg italic">
+                      <p className="text-slate-600 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-lg italic">
                         "{testimonial.text}"
                       </p>
                       
                       {/* Author Info */}
-                      <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
-                        <div className={`w-12 h-12 bg-gradient-to-br ${testimonial.color} rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-lg`}>
+                      <div className="flex items-center gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-slate-100">
+                        <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${testimonial.color} rounded-full flex items-center justify-center text-white font-semibold text-xs sm:text-sm shadow-lg`}>
                           {testimonial.avatar}
                         </div>
                         <div>
-                          <div className="font-semibold text-slate-900">
+                          <div className="font-semibold text-slate-900 text-sm sm:text-base">
                             {testimonial.name}
                           </div>
-                          <div className="text-sm text-slate-500">
+                          <div className="text-xs sm:text-sm text-slate-500">
                             {testimonial.location}
                           </div>
                         </div>
@@ -194,23 +204,23 @@ const DepoimentosSection = () => {
               </div>
 
               {/* Navigation Controls */}
-              <div className="flex items-center justify-center gap-4">
+              <div className="flex items-center justify-center gap-3 sm:gap-4">
                 <Button
                   onClick={prevSlide}
                   variant="outline"
                   size="sm"
-                  className="w-12 h-12 rounded-full border-2 border-slate-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-slate-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300"
                 >
-                  <ChevronLeft className="w-5 h-5 text-slate-600" />
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
                 </Button>
                 
                 {/* Dots Indicator */}
-                <div className="flex gap-2">
+                <div className="flex gap-1.5 sm:gap-2">
                   {Array.from({ length: totalSlides }, (_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentSlide(index)}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
                         index === currentSlide 
                           ? 'bg-blue-600 scale-125' 
                           : 'bg-slate-300 hover:bg-slate-400'
@@ -223,49 +233,49 @@ const DepoimentosSection = () => {
                   onClick={nextSlide}
                   variant="outline"
                   size="sm"
-                  className="w-12 h-12 rounded-full border-2 border-slate-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-slate-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300"
                 >
-                  <ChevronRight className="w-5 h-5 text-slate-600" />
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
                 </Button>
               </div>
             </div>
           </div>
 
           {/* Stats Section */}
-          <div className={`mb-20 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 rounded-3xl p-12 relative overflow-hidden">
+          <div className={`mb-16 sm:mb-20 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 rounded-2xl sm:rounded-3xl p-8 sm:p-12 relative overflow-hidden">
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-10 left-10 w-40 h-40 border border-white/30 rounded-full"></div>
-                <div className="absolute bottom-10 right-10 w-32 h-32 border border-white/30 rounded-full"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/30 rounded-full"></div>
+                <div className="absolute top-10 left-10 w-32 sm:w-40 h-32 sm:h-40 border border-white/30 rounded-full"></div>
+                <div className="absolute bottom-10 right-10 w-24 sm:w-32 h-24 sm:h-32 border border-white/30 rounded-full"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 sm:w-48 h-36 sm:h-48 border border-white/30 rounded-full"></div>
               </div>
               
               <div className="relative text-center">
-                <div className="flex items-center justify-center gap-2 mb-6">
-                  <Star className="w-6 h-6 text-yellow-400 fill-current" />
-                  <span className="text-lg font-semibold text-white">5/5 - Avaliação dos Clientes</span>
-                  <Star className="w-6 h-6 text-yellow-400 fill-current" />
+                <div className="flex items-center justify-center gap-2 mb-4 sm:mb-6">
+                  <Star className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 fill-current" />
+                  <span className="text-sm sm:text-lg font-semibold text-white">5/5 - Avaliação dos Clientes</span>
+                  <Star className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 fill-current" />
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
                   Mais de 1000 clientes satisfeitos
                 </h3>
-                <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+                <p className="text-sm sm:text-lg text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
                   Nossa maior conquista é a confiança e satisfação dos nossos clientes. 
                   Cada depoimento é uma prova do nosso compromisso com a excelência.
                 </p>
-                <div className="flex items-center justify-center gap-8">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-2">1000+</div>
-                    <div className="text-white/90">Clientes Atendidos</div>
+                    <div className="text-3xl sm:text-4xl font-bold text-white mb-1 sm:mb-2">1000+</div>
+                    <div className="text-white/90 text-sm sm:text-base">Clientes Atendidos</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-2">98%</div>
-                    <div className="text-white/90">Satisfação</div>
+                    <div className="text-3xl sm:text-4xl font-bold text-white mb-1 sm:mb-2">100%</div>
+                    <div className="text-white/90 text-sm sm:text-base">Satisfação</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-2">24h</div>
-                    <div className="text-white/90">Atendimento</div>
+                    <div className="text-3xl sm:text-4xl font-bold text-white mb-1 sm:mb-2">24h</div>
+                    <div className="text-white/90 text-sm sm:text-base">Atendimento</div>
                   </div>
                 </div>
               </div>
@@ -274,35 +284,35 @@ const DepoimentosSection = () => {
 
           {/* CTA Section */}
           <div className={`text-center transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl p-12 border border-blue-100/50 relative overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl sm:rounded-3xl p-8 sm:p-12 border border-blue-100/50 relative overflow-hidden">
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-10 left-10 w-40 h-40 border border-blue-300/30 rounded-full"></div>
-                <div className="absolute bottom-10 right-10 w-32 h-32 border border-purple-300/30 rounded-full"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-blue-300/30 rounded-full"></div>
+                <div className="absolute top-10 left-10 w-32 sm:w-40 h-32 sm:h-40 border border-blue-300/30 rounded-full"></div>
+                <div className="absolute bottom-10 right-10 w-24 sm:w-32 h-24 sm:h-32 border border-purple-300/30 rounded-full"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 sm:w-48 h-36 sm:h-48 border border-blue-300/30 rounded-full"></div>
               </div>
               
               <div className="relative">
-                <div className="flex items-center justify-center gap-2 mb-6">
-                  <CheckCircle className="w-6 h-6 text-green-500" />
-                  <span className="text-lg font-semibold text-slate-700">Junte-se aos nossos clientes satisfeitos</span>
-                  <CheckCircle className="w-6 h-6 text-green-500" />
+                <div className="flex items-center justify-center gap-2 mb-4 sm:mb-6">
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
+                  <span className="text-sm sm:text-lg font-semibold text-slate-700">Junte-se aos nossos clientes satisfeitos</span>
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
                   Quer Fazer Parte Dessa História?
                 </h3>
-                <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
+                <p className="text-sm sm:text-lg text-slate-600 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
                   Venha conhecer por que mais de 1000 pessoas escolheram a PG Seguros 
                   para proteger o que mais importa em suas vidas.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                   <Button 
                     size="lg" 
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-10 py-4 rounded-xl font-semibold text-lg group"
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg group"
                     onClick={() => handleOpenModal("Consultoria Gratuita")}
                   >
                     Falar com Especialista
-                    <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
                   </Button>
                   
                 </div>

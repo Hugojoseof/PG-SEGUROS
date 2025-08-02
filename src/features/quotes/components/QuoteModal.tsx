@@ -122,7 +122,7 @@ const QuoteModal = ({ isOpen, onClose, selectedService, sectionId = 'servicos' }
 
   const handleWhatsAppRedirect = () => {
     const message = `Olá! Gostaria de fazer uma cotação de ${selectedService}. Nome: ${formData.nome}, Email: ${formData.email}, Telefone: ${formData.telefone}`;
-    window.open(`https://wa.me/5511999999999?text=${encodeURIComponent(message)}`, "_blank");
+    window.open(`https://wa.me/5584998501948?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
