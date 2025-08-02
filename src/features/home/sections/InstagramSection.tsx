@@ -81,7 +81,7 @@ const InstagramSection = () => {
                 <Card key={index} className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
                   <CardContent className="p-0 overflow-hidden">
                     <div className="relative">
-                      <div className="w-full h-48 sm:h-64 bg-gradient-to-br from-slate-200 to-slate-300 animate-pulse"></div>
+                      <div className="w-full aspect-square sm:aspect-[4/5] lg:aspect-[3/4] bg-gradient-to-br from-slate-200 to-slate-300 animate-pulse"></div>
                       <div className="p-4 sm:p-5">
                         <div className="h-3 sm:h-4 bg-slate-200 rounded animate-pulse mb-2 sm:mb-3"></div>
                         <div className="h-2 sm:h-3 bg-slate-200 rounded animate-pulse mb-1 sm:mb-2"></div>
@@ -109,24 +109,26 @@ const InstagramSection = () => {
                     <CardContent className="p-0 overflow-hidden">
                       <div className="relative">
                         
-                        {/* Image */}
+                        {/* Image Container with Better Mobile Responsiveness */}
                         <div className="relative overflow-hidden">
-                          <img
-                            src={post.media_url}
-                            alt="Instagram post"
-                            className="w-full h-48 sm:h-64 lg:h-72 object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
-                            onError={(e) => {
-                              // Fallback para imagem padrão se a URL falhar
-                              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=400&fit=crop&crop=center';
-                            }}
-                          />
+                          <div className="aspect-square sm:aspect-[4/5] lg:aspect-[3/4] w-full">
+                            <img
+                              src={post.media_url}
+                              alt="Instagram post"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+                              onError={(e) => {
+                                // Fallback para imagem padrão se a URL falhar
+                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=400&fit=crop&crop=center';
+                              }}
+                            />
+                          </div>
                           
                           {/* Overlay */}
                           <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex items-end`}>
-                            <div className="p-4 sm:p-6 w-full">
+                            <div className="p-3 sm:p-4 lg:p-6 w-full">
                               <div className="flex items-center justify-center text-white">
-                                <div className="flex items-center space-x-2 sm:space-x-3 bg-white/20 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
-                                  <Instagram className="w-4 h-4 sm:w-5 sm:h-5" />
+                                <div className="flex items-center space-x-2 sm:space-x-3 bg-white/20 backdrop-blur-sm px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 rounded-full">
+                                  <Instagram className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
                                   <span className="text-xs sm:text-sm font-semibold">@instagram</span>
                                 </div>
                               </div>
