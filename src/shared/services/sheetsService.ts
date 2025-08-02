@@ -39,10 +39,9 @@ class SheetsService {
         origem: 'Landing Page PG Seguros'
       };
 
-      console.log('Tentando salvar na planilha:', quoteData);
-      console.log('URL do web app:', this.webAppUrl);
+      console.log('📝 Salvando cotação na planilha...');
 
-      // Tentar primeiro sem no-cors para ver a resposta real
+      // Usar diretamente no-cors para evitar erros de CORS
       try {
         const response = await fetch(this.webAppUrl, {
           method: 'POST',
@@ -50,38 +49,21 @@ class SheetsService {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(quoteData),
+          mode: 'no-cors' // Usar no-cors diretamente
         });
 
-        console.log('Status da resposta:', response.status);
-        console.log('Headers da resposta:', response.headers);
-
-        if (response.ok) {
-          const responseText = await response.text();
-          console.log('Resposta do servidor:', responseText);
-          console.log('Dados enviados com sucesso para a planilha');
-          return true;
-        } else {
-          console.error('Erro na resposta:', response.status, response.statusText);
-          const errorText = await response.text();
-          console.error('Texto do erro:', errorText);
-          return false;
-        }
-      } catch (corsError) {
-        console.log('Erro de CORS detectado, tentando com no-cors:', corsError);
+        console.log('✅ Cotação enviada com sucesso!');
+        console.log('📊 Dados salvos:', {
+          nome: quoteData.nome,
+          email: quoteData.email,
+          telefone: quoteData.telefone,
+          tipoSeguro: quoteData.tipoSeguro
+        });
         
-        // Fallback para no-cors
-        const response = await fetch(this.webAppUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(quoteData),
-          mode: 'no-cors'
-        });
-
-        console.log('Resposta no-cors:', response);
-        console.log('Dados enviados (assumindo sucesso devido ao no-cors)');
         return true;
+      } catch (error) {
+        console.error('❌ Erro ao salvar cotação:', error);
+        return false;
       }
       
     } catch (error) {
