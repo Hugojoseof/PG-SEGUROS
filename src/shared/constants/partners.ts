@@ -64,7 +64,7 @@ export const INSURANCE_PARTNERS: InsurancePartner[] = [
   },
   {
     name: "Tokio Marine",
-    logo: "/bancos/Tokio-Marine.png",
+    logo: "/bancos/Tokyo-Marine.png",
     description: "Seguradora japonesa com ampla cobertura",
     specialties: ["Auto", "Residencial", "Empresarial", "Marítimo", "Aviação"]
   },
