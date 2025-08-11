@@ -160,24 +160,8 @@ export const TESTIMONIALS: Testimonial[] = [
   }
 ];
 
-// Parceiros
-export const PARTNERS: Partner[] = [
-  {
-    name: "Seguradora A",
-    logo: "/placeholder.svg",
-    description: "Uma das maiores seguradoras do Brasil"
-  },
-  {
-    name: "Seguradora B",
-    logo: "/placeholder.svg",
-    description: "Especializada em seguros empresariais"
-  },
-  {
-    name: "Seguradora C",
-    logo: "/placeholder.svg",
-    description: "Foco em seguros de vida e saúde"
-  }
-];
+// Parceiros - Agora gerenciados em partners.ts
+export { INSURANCE_PARTNERS, PARTNER_GROUPS, TOTAL_PARTNERS } from './partners';
 
 // Configurações de navegação
 export const NAVIGATION_CONFIG = {

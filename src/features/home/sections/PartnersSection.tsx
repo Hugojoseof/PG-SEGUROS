@@ -1,12 +1,14 @@
 import { Button } from "@/shared/components/ui/button";
 import { ArrowRight, Shield, Award, Zap, Users, Star } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import QuoteModal from "@/features/quotes/components/QuoteModal";
+import { INSURANCE_PARTNERS, TOTAL_PARTNERS } from "@/shared/constants/partners";
 
 const PartnersSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("");
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -29,23 +31,10 @@ const PartnersSection = () => {
     setModalOpen(true);
   };
 
-  const partners = [
-    { name: "Porto Seguro", logo: "https://logoeps.com/wp-content/uploads/2013/03/porto-seguro-vector-logo.png" },
-    { name: "Bradesco Seguros", logo: "https://logoeps.com/wp-content/uploads/2014/05/bradesco-vector-logo.png" },
-    { name: "Allianz", logo: "https://logoeps.com/wp-content/uploads/2013/03/allianz-vector-logo.png" },
-    { name: "Azul Seguros", logo: "https://logoeps.com/wp-content/uploads/2014/05/azul-vector-logo.png" },
-    { name: "HDI Seguros", logo: "https://logoeps.com/wp-content/uploads/2013/03/hdi-seguros-vector-logo.png" },
-    { name: "Zurich", logo: "https://logoeps.com/wp-content/uploads/2013/03/zurich-vector-logo.png" },
-    { name: "SulAmérica", logo: "https://logoeps.com/wp-content/uploads/2013/03/sulamérica-vector-logo.png" },
-    { name: "Mapfre", logo: "https://logoeps.com/wp-content/uploads/2013/03/mapfre-vector-logo.png" },
-    { name: "Itaú Seguros", logo: "https://logoeps.com/wp-content/uploads/2014/05/itau-vector-logo.png" },
-    { name: "Liberty Seguros", logo: "https://logoeps.com/wp-content/uploads/2013/03/liberty-seguros-vector-logo.png" },
-    { name: "Tokio Marine", logo: "https://logoeps.com/wp-content/uploads/2013/03/tokio-marine-vector-logo.png" },
-    { name: "Sompo Seguros", logo: "https://logoeps.com/wp-content/uploads/2013/03/sompo-seguros-vector-logo.png" },
-  ];
+  const partners = INSURANCE_PARTNERS;
 
   const trustStats = [
-    { number: "50+", label: "Seguradoras Parceiras", icon: Shield, color: "from-blue-400 to-cyan-400" },
+    { number: `${TOTAL_PARTNERS}+`, label: "Seguradoras Parceiras", icon: Shield, color: "from-blue-400 to-cyan-400" },
     { number: "24/7", label: "Atendimento", icon: Zap, color: "from-purple-400 to-pink-400" },
     { number: "100%", label: "Digital", icon: Award, color: "from-emerald-400 to-teal-400" },
     { number: "10k+", label: "Clientes Satisfeitos", icon: Users, color: "from-orange-400 to-red-400" },
@@ -54,20 +43,20 @@ const PartnersSection = () => {
   return (
     <section id="parceiros" className="relative py-16 sm:py-24 lg:py-32 overflow-hidden">
       {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-indigo-50/30" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30" />
       
       {/* Animated background elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-indigo-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-tl from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-64 h-48 sm:h-64 bg-gradient-to-br from-purple-400/8 to-indigo-400/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-20 right-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-tl from-indigo-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 sm:w-64 h-48 sm:h-64 bg-gradient-to-br from-blue-400/8 to-indigo-400/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         
         {/* Floating particles */}
-        <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-indigo-400/30 rounded-full animate-float"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-1 h-1 bg-purple-400/40 rounded-full animate-float" style={{ animationDelay: '3s' }}></div>
-        <div className="absolute top-2/3 right-1/3 w-1.5 h-1.5 bg-blue-400/35 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400/30 rounded-full animate-float"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-1 h-1 bg-indigo-400/40 rounded-full animate-float" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-2/3 left-1/3 w-1.5 h-1.5 bg-purple-400/35 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
       </div>
-      
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Enhanced Section Header */}
@@ -85,25 +74,92 @@ const PartnersSection = () => {
             </p>
           </div>
 
-          {/* Infinite Carousel - Full Width */}
+          {/* Infinite Loop Carousel - Full Width */}
           <div className={`mb-16 sm:mb-20 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative overflow-hidden w-screen" style={{ marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)' }}>
-              {/* Single Row - Moving Right */}
-              <div className="flex animate-scroll-right">
-                {[...partners, ...partners, ...partners, ...partners, ...partners, ...partners].map((partner, index) => (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 mx-1 sm:mx-2 group"
-                  >
-                    <div className="w-40 h-24 sm:w-56 sm:h-32 bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-lg transition-all duration-300 border border-slate-100/50 flex items-center justify-center p-3 sm:p-6">
-                      <div className="text-center">
-                        <div className="w-32 h-16 sm:w-40 sm:h-20 bg-gradient-to-r from-slate-100/50 to-slate-200/50 rounded-xl sm:rounded-2xl mb-2 sm:mb-3 flex items-center justify-center">
-                          <span className="text-xs sm:text-sm font-medium text-slate-600 px-1">{partner.name}</span>
+              {/* Carousel Container */}
+              <div className="carousel-container">
+                {/* First Set - Original */}
+                <div className="carousel-track">
+                  {partners.map((partner, index) => (
+                    <div
+                      key={`original-${index}`}
+                      className="carousel-item"
+                    >
+                      <div className="w-40 h-24 sm:w-56 sm:h-32 bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-lg transition-all duration-300 border border-slate-100/50 flex flex-col items-center justify-center p-3 sm:p-6 hover:shadow-xl hover:scale-105">
+                        <div className="text-center flex-1 flex flex-col items-center justify-center">
+                          <div className="w-24 h-12 sm:w-32 sm:h-16 mb-2 sm:mb-3 flex items-center justify-center">
+                            <img 
+                              src={partner.logo} 
+                              alt={`Logo ${partner.name}`}
+                              className="max-w-full max-h-full object-contain"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  const fallback = document.createElement('span');
+                                  fallback.className = 'text-xs sm:text-sm font-medium text-slate-600 px-1 text-center';
+                                  fallback.textContent = partner.name;
+                                  parent.appendChild(fallback);
+                                }
+                              }}
+                            />
+                          </div>
+                          <div className="text-xs sm:text-xs font-medium text-slate-600 px-1 text-center leading-tight">
+                            {partner.name}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                
+                {/* Second Set - Duplicate for seamless loop */}
+                <div className="carousel-track">
+                  {partners.map((partner, index) => (
+                    <div
+                      key={`duplicate-${index}`}
+                      className="carousel-item"
+                    >
+                      <div className="w-40 h-24 sm:w-56 sm:h-32 bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-lg transition-all duration-300 border border-slate-100/50 flex flex-col items-center justify-center p-3 sm:p-6 hover:shadow-xl hover:scale-105">
+                        <div className="text-center flex-1 flex flex-col items-center justify-center">
+                          <div className="w-24 h-12 sm:w-32 sm:h-16 mb-2 sm:mb-3 flex items-center justify-center">
+                            <img 
+                              src={partner.logo} 
+                              alt={`Logo ${partner.name}`}
+                              className="max-w-full max-h-full object-contain"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  const fallback = document.createElement('span');
+                                  fallback.className = 'text-xs sm:text-sm font-medium text-slate-600 px-1 text-center';
+                                  fallback.textContent = partner.name;
+                                  parent.appendChild(fallback);
+                                }
+                              }}
+                            />
+                          </div>
+                          <div className="text-xs sm:text-xs font-medium text-slate-600 px-1 text-center leading-tight">
+                            {partner.name}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Indicador de parceiros */}
+            <div className="text-center mt-6">
+              <div className="inline-flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full">
+                <Shield className="w-4 h-4 text-slate-600" />
+                <span className="text-sm text-slate-600">
+                  {TOTAL_PARTNERS} seguradoras parceiras
+                </span>
               </div>
             </div>
           </div>
@@ -136,7 +192,7 @@ const PartnersSection = () => {
               <div className="relative">
                 <div className="flex items-center justify-center gap-2 mb-4 sm:mb-6">
                   <Star className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
-                  <span className="text-sm sm:text-lg font-semibold text-slate-700">Mais de 50 seguradoras parceiras</span>
+                  <span className="text-sm sm:text-lg font-semibold text-slate-700">{TOTAL_PARTNERS} seguradoras parceiras de confiança</span>
                   <Star className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
                 </div>
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
@@ -179,13 +235,53 @@ const PartnersSection = () => {
       />
 
       <style>{`
-        @keyframes scroll-right {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-16.67%); }
+        .carousel-container {
+          display: flex;
+          width: fit-content;
+          animation: scroll-infinite 30s linear infinite;
         }
         
-        .animate-scroll-right {
-          animation: scroll-right 10s linear infinite;
+        .carousel-track {
+          display: flex;
+          gap: 0.5rem;
+          flex-shrink: 0;
+        }
+        
+        .carousel-item {
+          flex-shrink: 0;
+        }
+        
+        @keyframes scroll-infinite {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        
+        /* Pause animation on hover */
+        .carousel-container:hover {
+          animation-play-state: paused;
+        }
+        
+        /* Smooth transitions for hover effects */
+        .carousel-item:hover {
+          transform: scale(1.05);
+          transition: transform 0.3s ease;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+          .carousel-container {
+            animation-duration: 20s;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .carousel-container {
+            animation-duration: 40s;
+          }
         }
       `}</style>
     </section>

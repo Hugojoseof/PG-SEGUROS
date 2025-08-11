@@ -3,6 +3,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Users, Search, Shield, Clock, Award, Headphones, ArrowRight, Star, CheckCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import QuoteModal from "@/features/quotes/components/QuoteModal";
+import { TOTAL_PARTNERS } from "@/shared/constants/partners";
 
 const DiferenciaisSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -48,7 +49,7 @@ const DiferenciaisSection = () => {
     {
       icon: Shield,
       title: "Variedade de Seguradoras",
-      description: "Acesso a mais de 50 seguradoras parceiras para garantir sempre a melhor opção para você.",
+      description: `Acesso a ${TOTAL_PARTNERS} seguradoras parceiras para garantir sempre a melhor opção para você.`,
       color: "from-emerald-500 to-teal-500",
       delay: "200ms"
     },
@@ -77,7 +78,7 @@ const DiferenciaisSection = () => {
 
   const stats = [
     { number: "25+", label: "Anos de Experiência", icon: Award },
-    { number: "50+", label: "Seguradoras Parceiras", icon: Shield },
+    { number: `${TOTAL_PARTNERS}+`, label: "Seguradoras Parceiras", icon: Shield },
     { number: "1000+", label: "Clientes Atendidos", icon: Users },
     { number: "100%", label: "Satisfação", icon: Star },
   ];
