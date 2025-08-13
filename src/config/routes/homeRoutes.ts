@@ -5,6 +5,7 @@ import { RouteObject } from 'react-router-dom';
 const HomePage = lazy(() => import('@/features/home/pages/HomePage'));
 const TermsPage = lazy(() => import('@/shared/pages/TermsPage'));
 const PrivacyPage = lazy(() => import('@/shared/pages/PrivacyPage'));
+const ServicePage = lazy(() => import('@/features/services/pages/ServicePage'));
 
 export const homeRoutes: RouteObject[] = [
   {
@@ -13,6 +14,14 @@ export const homeRoutes: RouteObject[] = [
     meta: {
       title: "PG Seguros - Proteção Inteligente para sua Vida",
       description: "Corretora de seguros com mais de 25 anos de experiência. Oferecemos as melhores opções das principais seguradoras do mercado."
+    }
+  },
+  {
+    path: "/servicos/:slug",
+    element: React.createElement(ServicePage),
+    meta: {
+      title: "Serviço - PG Seguros",
+      description: "Conheça detalhes do serviço e faça sua cotação."
     }
   },
   {

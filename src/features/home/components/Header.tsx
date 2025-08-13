@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/shared/components/ui/button";
-import { Menu, X, Phone, ChevronDown, User, Building2 } from "lucide-react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import TopBar from "@/shared/components/TopBar";
 import DropdownMenu from "@/shared/components/DropdownMenu";
+import { SERVICES } from "@/shared/constants/services";
 
 interface NavItem {
   id: string;
@@ -25,6 +26,7 @@ const Header = () => {
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
   const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const closeTimeoutRef = useRef<number | null>(null);
 
   const navItems: NavItem[] = [
     { 
@@ -37,29 +39,7 @@ const Header = () => {
       label: "Serviços",
       href: "#servicos",
       hasDropdown: true,
-      isMegaMenu: true,
-      megaMenuItems: [
-        {
-          title: "Pessoal",
-          icon: <User className="w-4 h-4 sm:w-5 sm:h-5" />,
-          items: [
-            "Seguro Auto",
-            "Consórcio",
-            "Seguro de Vida",
-            "Seguro Residencial"
-          ]
-        },
-        {
-          title: "Empresarial",
-          icon: <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />,
-          items: [
-            "Seguro de Vida Empresarial",
-            "Seguro Empresarial",
-            "Plano de Saúde Empresarial",
-            "Seguro Frota"
-          ]
-        }
-      ]
+      dropdownItems: SERVICES.map(s => s.title)
     },
     { 
       id: "quem-somos", 
@@ -103,6 +83,13 @@ const Header = () => {
   }, []);
 
   const scrollToSection = (sectionId: string) => {
+    // Se estiver em uma página de serviço, redirecionar para home + seção
+    if (window.location.pathname !== '/') {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    
+    // Se estiver na home, fazer scroll para a seção
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -112,11 +99,12 @@ const Header = () => {
   };
 
   const handleServiceSelect = (service: string) => {
-    // Aqui você pode adicionar lógica específica para cada serviço
-    console.log(`Serviço selecionado: ${service}`);
-    
-    // Exemplo: scroll para seção de serviços
-    scrollToSection("servicos");
+    const s = SERVICES.find(item => item.title === service);
+    if (s) {
+      window.location.href = `/servicos/${s.key}`;
+    } else {
+      scrollToSection("servicos");
+    }
     setHoveredDropdown(null);
     setHoveredService(null);
   };
@@ -129,6 +117,19 @@ const Header = () => {
     setMobileDropdownOpen(mobileDropdownOpen === itemId ? null : itemId);
   };
 
+  const openDropdown = (id: string) => {
+    if (closeTimeoutRef.current) window.clearTimeout(closeTimeoutRef.current);
+    setHoveredDropdown(id);
+  };
+
+  const scheduleCloseDropdown = () => {
+    if (closeTimeoutRef.current) window.clearTimeout(closeTimeoutRef.current);
+    closeTimeoutRef.current = window.setTimeout(() => {
+      setHoveredDropdown(null);
+      setHoveredService(null);
+    }, 200);
+  };
+
   return (
     <>
       <TopBar />
@@ -138,7 +139,7 @@ const Header = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer" onClick={() => window.location.href = '/'}>
               <img 
                 src="/PG_LOGO.png" 
                 alt="PG Seguros - Corretora de Seguros" 
@@ -152,11 +153,8 @@ const Header = () => {
                 <div 
                   key={item.id}
                   className="relative"
-                  onMouseEnter={() => setHoveredDropdown(item.id)}
-                  onMouseLeave={() => {
-                    setHoveredDropdown(null);
-                    setHoveredService(null);
-                  }}
+                  onMouseEnter={() => openDropdown(item.id)}
+                  onMouseLeave={scheduleCloseDropdown}
                 >
                   <button
                     className={`font-medium transition-colors duration-200 flex items-center group text-sm xl:text-base ${
@@ -164,7 +162,13 @@ const Header = () => {
                         ? "text-primary border-b-2 border-primary" 
                         : "text-gray-700 hover:text-primary"
                     }`}
-                    onClick={() => !item.hasDropdown && scrollToSection(item.id)}
+                    onClick={() => {
+                      if (item.hasDropdown) {
+                        hoveredDropdown === item.id ? setHoveredDropdown(null) : setHoveredDropdown(item.id);
+                      } else {
+                        scrollToSection(item.id);
+                      }
+                    }}
                   >
                     {item.label}
                     {item.hasDropdown && (
@@ -174,67 +178,16 @@ const Header = () => {
                     )}
                   </button>
                   
-                  {/* Mega Menu para Serviços */}
-                  {item.isMegaMenu && hoveredDropdown === item.id && (
-                    <div className="absolute top-full left-0 mt-1 w-[400px] xl:w-[500px] bg-white rounded-lg shadow-xl border border-gray-100 py-4 sm:py-6 z-50">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 px-4 sm:px-6">
-                        {item.megaMenuItems?.map((category, index) => (
-                          <div key={index} className="space-y-3 sm:space-y-4">
-                            <div className="flex items-center space-x-2 sm:space-x-3 pb-2 sm:pb-3 border-b border-gray-100">
-                              <div className="text-primary p-1 sm:p-1.5 bg-primary/10 rounded-lg">
-                                {category.icon}
-                              </div>
-                              <h3 className="font-semibold text-gray-900 text-sm sm:text-base">
-                                {category.title}
-                              </h3>
-                            </div>
-                            <div className="space-y-1">
-                              {category.items.map((service, serviceIndex) => (
-                                <button
-                                  key={serviceIndex}
-                                  className={`w-full text-left text-xs sm:text-sm px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg transition-all duration-200 flex items-center group ${
-                                    hoveredService === service
-                                      ? "text-primary bg-primary/5 border-l-2 border-primary"
-                                      : "text-gray-700 hover:text-primary hover:bg-gray-50"
-                                  }`}
-                                  onMouseEnter={() => setHoveredService(service)}
-                                  onMouseLeave={() => setHoveredService(null)}
-                                  onClick={() => handleServiceSelect(service)}
-                                >
-                                  <span className="flex-1">{service}</span>
-                                  <div className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full transition-colors duration-200 ${
-                                    hoveredService === service 
-                                      ? "bg-primary opacity-100" 
-                                      : "bg-gray-300 opacity-0 group-hover:opacity-100"
-                                  }`}></div>
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-100 px-4 sm:px-6">
-                        <button
-                          className="w-full text-center text-xs sm:text-sm font-medium text-primary hover:text-primary/80 hover:bg-primary/5 py-2 sm:py-2.5 rounded-lg transition-all duration-200"
-                          onClick={() => {
-                            scrollToSection("servicos");
-                            setHoveredDropdown(null);
-                            setHoveredService(null);
-                          }}
-                        >
-                          Ver todos os serviços →
-                        </button>
-                      </div>
+                  {/* Dropdown Menu para Serviços */}
+                  {item.hasDropdown && hoveredDropdown === item.id && (
+                    <div onMouseEnter={() => openDropdown(item.id)} onMouseLeave={scheduleCloseDropdown}>
+                      <DropdownMenu 
+                        items={item.dropdownItems || []}
+                        isOpen={hoveredDropdown === item.id}
+                        onClose={() => setHoveredDropdown(null)}
+                        onItemSelect={handleServiceSelect}
+                      />
                     </div>
-                  )}
-                  
-                  {/* Dropdown Menu Normal */}
-                  {item.hasDropdown && !item.isMegaMenu && (
-                    <DropdownMenu 
-                      items={item.dropdownItems || []}
-                      isOpen={hoveredDropdown === item.id}
-                      onClose={() => setHoveredDropdown(null)}
-                    />
                   )}
                 </div>
               ))}
@@ -295,51 +248,20 @@ const Header = () => {
                       )}
                     </button>
                     
-                    {/* Mobile Mega Menu para Serviços */}
-                    {item.isMegaMenu && mobileDropdownOpen === item.id && (
-                      <div className="ml-3 sm:ml-4 mt-2 sm:mt-3 space-y-4 sm:space-y-5">
-                        {item.megaMenuItems?.map((category, index) => (
-                          <div key={index} className="space-y-2 sm:space-y-3">
-                            <div className="flex items-center space-x-2 sm:space-x-3 pb-1 sm:pb-2">
-                              <div className="text-primary p-0.5 sm:p-1 bg-primary/10 rounded-lg">
-                                {category.icon}
-                              </div>
-                              <h3 className="font-semibold text-gray-900 text-xs sm:text-sm">
-                                {category.title}
-                              </h3>
-                            </div>
-                            <div className="ml-6 sm:ml-8 space-y-1 sm:space-y-2">
-                              {category.items.map((service, serviceIndex) => (
-                                <button
-                                  key={serviceIndex}
-                                  className="w-full text-left text-xs sm:text-sm text-gray-600 hover:text-primary hover:bg-gray-50 px-2 sm:px-3 py-1.5 sm:py-2.5 rounded-lg transition-all duration-200"
-                                  onClick={() => {
-                                    handleServiceSelect(service);
-                                    setIsMobileMenuOpen(false);
-                                    setMobileDropdownOpen(null);
-                                  }}
-                                >
-                                  {service}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    
-                    {/* Mobile Dropdown Normal */}
-                    {item.hasDropdown && !item.isMegaMenu && mobileDropdownOpen === item.id && (
+                    {/* Mobile Dropdown para Serviços */}
+                    {item.hasDropdown && mobileDropdownOpen === item.id && (
                       <div className="ml-3 sm:ml-4 mt-1 sm:mt-2 space-y-1 sm:space-y-2">
-                        {item.dropdownItems?.map((dropdownItem, index) => (
+                        {item.dropdownItems?.map((service, index) => (
                           <button
                             key={index}
                             className="w-full text-left py-2 sm:py-2.5 px-3 sm:px-4 text-xs sm:text-sm text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-all duration-200"
                             onClick={() => {
-                              scrollToSection(item.id);
+                              handleServiceSelect(service);
+                              setIsMobileMenuOpen(false);
+                              setMobileDropdownOpen(null);
                             }}
                           >
-                            {dropdownItem}
+                            {service}
                           </button>
                         ))}
                       </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/shared/components/ui/button";
-import { Shield, Phone, Car, Home, Heart, Building2, ChevronDown, ArrowRight } from "lucide-react";
+import { Shield, Phone, Car, Heart, Building2, ChevronDown, ArrowRight, Stethoscope } from "lucide-react";
+import { SERVICES } from "@/shared/constants/services";
 import QuoteModal from "@/features/quotes/components/QuoteModal";
 import TypewriterEffect from "@/shared/components/TypewriterEffect";
 
@@ -26,13 +27,7 @@ const HeroSection = () => {
     setIsModalOpen(true);
   };
 
-  const services = [
-    "Seguro Auto",
-    "Seguro Residencial", 
-    "Seguro de Vida",
-    "Seguro Empresarial",
-    "Consórcio"
-  ];
+  const services = SERVICES.map(s => s.title);
 
   return (
     <section id="inicio" className="relative min-h-screen flex items-center bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden">
@@ -111,7 +106,7 @@ const HeroSection = () => {
                 </button>
                 
                 {isDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-white/20 py-2 z-50">
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-white/20 py-2 z-50 max-h-60 overflow-y-auto">
                     {services.map((service, index) => (
                       <button
                         key={index}
@@ -165,8 +160,8 @@ const HeroSection = () => {
                     <p className="text-white font-medium text-sm sm:text-base">Auto</p>
                   </div>
                   <div className="bg-white/10 p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-white/20 hover:bg-white/15 transition-all duration-300">
-                    <Home className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-blue-400 mx-auto mb-2 sm:mb-3" />
-                    <p className="text-white font-medium text-sm sm:text-base">Residencial</p>
+                    <Stethoscope className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-blue-400 mx-auto mb-2 sm:mb-3" />
+                    <p className="text-white font-medium text-sm sm:text-base">Resp. Civil</p>
                   </div>
                   <div className="bg-white/10 p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-white/20 hover:bg-white/15 transition-all duration-300">
                     <Heart className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-pink-400 mx-auto mb-2 sm:mb-3" />

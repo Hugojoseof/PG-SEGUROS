@@ -1,5 +1,6 @@
 import { Button } from "@/shared/components/ui/button";
 import { Phone, Mail, MapPin, Instagram, Facebook, Linkedin, ArrowRight, Shield, Star, Users, Clock, MessageCircle } from "lucide-react";
+import { SERVICES } from "@/shared/constants/services";
 import { useState } from "react";
 import QuoteModal from "@/features/quotes/components/QuoteModal";
 
@@ -25,13 +26,7 @@ const Footer = () => {
     { name: "Contato", href: "#contato" },
   ];
 
-  const services = [
-    { name: "Seguro Auto", icon: Shield },
-    { name: "Seguro Residencial", icon: Shield },
-    { name: "Seguro de Vida", icon: Shield },
-    { name: "Seguro Empresarial", icon: Shield },
-    { name: "Consórcio", icon: Shield },
-  ];
+  const services = SERVICES.map(s => ({ name: s.title, icon: s.icon }));
 
   const trustFactors = [
     { icon: Star, text: "25+ anos de experiência", color: "from-yellow-500 to-orange-500" },

@@ -1,72 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/shared/components/ui/button";
-import { Car, Home, Heart, Building2, Phone, ArrowRight, User, Briefcase, Sparkles, Shield, Users, Zap, Target } from "lucide-react";
+import { Phone, ArrowRight, Sparkles } from "lucide-react";
 import QuoteModal from "@/features/quotes/components/QuoteModal";
+import { SERVICES } from "@/shared/constants/services";
 
-const pessoal = [
-  {
-    icon: Car,
-    title: "Seguro Auto",
-    description: "Proteção completa para seu veículo.",
-    gradient: "from-blue-500 to-indigo-600",
-    bgGradient: "from-blue-50 to-indigo-50"
-  },
-  {
-    icon: Home,
-    title: "Seguro Residencial",
-    description: "Tranquilidade para sua família e patrimônio.",
-    gradient: "from-emerald-500 to-teal-600",
-    bgGradient: "from-emerald-50 to-teal-50"
-  },
-  {
-    icon: Heart,
-    title: "Seguro de Vida",
-    description: "Proteção financeira para quem você ama.",
-    gradient: "from-rose-500 to-pink-600",
-    bgGradient: "from-rose-50 to-pink-50"
-  },
-  {
-    icon: Shield,
-    title: "Consórcio",
-    description: "Realize seus sonhos de forma planejada.",
-    gradient: "from-violet-500 to-purple-600",
-    bgGradient: "from-violet-50 to-purple-50"
-  },
-];
-
-const empresarial = [
-  {
-    icon: Users,
-    title: "Seguro de Vida Empresarial",
-    description: "Proteção para colaboradores e sócios.",
-    gradient: "from-amber-500 to-orange-600",
-    bgGradient: "from-amber-50 to-orange-50"
-  },
-  {
-    icon: Building2,
-    title: "Seguro Empresarial",
-    description: "Proteção completa para seu negócio.",
-    gradient: "from-slate-600 to-gray-700",
-    bgGradient: "from-slate-50 to-gray-50"
-  },
-  {
-    icon: Zap,
-    title: "Plano de Saúde Empresarial",
-    description: "Saúde e bem-estar para sua equipe.",
-    gradient: "from-cyan-500 to-blue-600",
-    bgGradient: "from-cyan-50 to-blue-50"
-  },
-  {
-    icon: Target,
-    title: "Seguro Frota",
-    description: "Proteção para toda a frota da empresa.",
-    gradient: "from-green-500 to-emerald-600",
-    bgGradient: "from-green-50 to-emerald-50"
-  },
-];
+const services = SERVICES;
 
 const ServicosSection = () => {
-  const [activeCategory, setActiveCategory] = useState<'pessoal' | 'empresarial'>('pessoal');
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("");
   const [isVisible, setIsVisible] = useState(false);
@@ -97,7 +37,7 @@ const ServicosSection = () => {
     setModalOpen(true);
   };
 
-  const currentServices = activeCategory === 'pessoal' ? pessoal : empresarial;
+  const currentServices = services;
 
   return (
     <section 
@@ -151,35 +91,7 @@ const ServicosSection = () => {
             </p>
           </div>
 
-          {/* Enhanced Category Toggle */}
-          <div className={`flex justify-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 delay-500 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl sm:rounded-3xl p-1 sm:p-2 shadow-2xl border border-gray-200/50 flex animate-pulse-glow">
-              <button
-                onClick={() => setActiveCategory('pessoal')}
-                className={`px-6 sm:px-8 lg:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold transition-all duration-300 text-sm sm:text-base ${
-                  activeCategory === 'pessoal'
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg transform scale-105 animate-pulse-glow'
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 hover:scale-105'
-                }`}
-              >
-                <User className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2 sm:mr-3" />
-                Pessoal
-              </button>
-              <button
-                onClick={() => setActiveCategory('empresarial')}
-                className={`px-6 sm:px-8 lg:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold transition-all duration-300 text-sm sm:text-base ${
-                  activeCategory === 'empresarial'
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg transform scale-105 animate-pulse-glow'
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 hover:scale-105'
-                }`}
-              >
-                <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2 sm:mr-3" />
-                Empresarial
-              </button>
-            </div>
-          </div>
+          {/* Removed Category Toggle */}
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 mb-16 sm:mb-20 lg:mb-24">
