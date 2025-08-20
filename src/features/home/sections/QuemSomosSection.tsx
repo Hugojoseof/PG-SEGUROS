@@ -3,10 +3,12 @@ import { Button } from "@/shared/components/ui/button";
 import { Users, Target, Heart, Shield, Award, TrendingUp, ArrowRight, Play } from "lucide-react";
 import { useState, useEffect } from "react";
 import QuoteModal from "@/features/quotes/components/QuoteModal";
+import { VideoModal } from "@/shared/components";
 
 const QuemSomosSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("");
 
   useEffect(() => {
@@ -142,7 +144,12 @@ const QuemSomosSection = () => {
                   Solicitar Orçamento
                   <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
-                <Button size="lg" variant="outline" className="border-2 border-slate-200 hover:border-blue-300 text-slate-700 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base group">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-2 border-slate-200 hover:border-blue-300 text-slate-700 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base group"
+                  onClick={() => setVideoModalOpen(true)}
+                >
                   <Play className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
                   Conheça Nossa História
                 </Button>
@@ -154,22 +161,14 @@ const QuemSomosSection = () => {
               <div className="relative">
                 <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl sm:rounded-3xl blur-xl" />
                 <div className="relative bg-gradient-to-br from-slate-100 to-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl">
-                  <img
-                    src="https://images.unsplash.com/photo-1560472355-536de3962603?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                    alt="Equipe PG Seguros"
-                    className="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-xl sm:rounded-2xl shadow-lg"
-                  />
-                  <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                        <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-slate-900 text-sm sm:text-base">Proteção Garantida</div>
-                        <div className="text-xs sm:text-sm text-slate-600">Mais de 10.000 vidas protegidas</div>
-                      </div>
-                    </div>
+                  <div className="relative w-full h-64 sm:h-80 lg:h-96 bg-slate-50 rounded-xl sm:rounded-2xl overflow-hidden flex items-center justify-center">
+                    <img
+                      src="foto-PG.jpg"
+                      alt="Equipe PG Seguros"
+                      className="max-w-full max-h-full object-contain rounded-xl sm:rounded-2xl"
+                    />
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -237,6 +236,14 @@ const QuemSomosSection = () => {
         </div>
       </div>
               <QuoteModal isOpen={modalOpen} onClose={() => setModalOpen(false)} selectedService={selectedService} sectionId="quem-somos" />
+              
+              {/* Video Modal */}
+              <VideoModal 
+                isOpen={videoModalOpen} 
+                onClose={() => setVideoModalOpen(false)} 
+                videoSrc="/video-PG.mp4"
+                title="Conheça Nossa História - PG Seguros"
+              />
     </section>
   );
 };

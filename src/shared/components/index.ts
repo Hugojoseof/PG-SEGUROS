@@ -2,6 +2,7 @@
 export { default as Router } from './Router';
 export { ErrorBoundary } from './ErrorBoundary';
 export { LoadingSpinner } from './ui/loading-spinner';
+export { default as VideoModal } from './ui/video-modal';
 
 // Re-export UI components
 export * from './ui/button';
