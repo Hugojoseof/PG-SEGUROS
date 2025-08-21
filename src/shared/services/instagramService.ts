@@ -2,60 +2,51 @@ import { InstagramPost, InstagramServiceConfig } from '@/types/instagram';
 import { BaseService } from './base/BaseService';
 
 class InstagramService extends BaseService {
-  private accessToken: string;
+  private supabaseUrl: string;
   private config: InstagramServiceConfig;
 
   constructor(config?: Partial<InstagramServiceConfig>) {
     super();
     this.config = {
-      accessToken: import.meta.env.VITE_INSTAGRAM_ACCESS_TOKEN || '',
       maxPosts: 4,
       ...config
     };
-    this.accessToken = this.config.accessToken;
+    // URL da Supabase Function (será configurada via variável de ambiente)
+    this.supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
   }
 
   async getRecentPosts(): Promise<InstagramPost[]> {
-    // Se não há token de acesso, usar fallback imediatamente
-    if (!this.accessToken || this.accessToken.trim() === '') {
-      console.warn('Instagram access token não configurado, usando posts de fallback');
+    // Se não há URL do Supabase configurada, usar fallback
+    if (!this.supabaseUrl) {
+      console.warn('❌ VITE_SUPABASE_URL não configurado, usando posts de fallback');
       return this.getFallbackPosts();
     }
 
     try {
-      // Verificar se o token é válido antes de fazer a requisição
-      const testResponse = await fetch(
-        `https://graph.instagram.com/me?fields=id,username&access_token=${this.accessToken}`
-      );
-
-      if (!testResponse.ok) {
-        console.warn(`Instagram API error: ${testResponse.status} - Token pode estar inválido ou expirado`);
-        return this.getFallbackPosts();
-      }
-
-      // Se o token é válido, buscar os posts
+      console.log('🔍 Buscando posts via Supabase Function...');
+      
+      // Chamar a Supabase Function em vez da API direta
       const response = await fetch(
-        `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp&access_token=${this.accessToken}&limit=${this.config.maxPosts}`
+        `${this.supabaseUrl}/functions/v1/instagram-posts?maxPosts=${this.config.maxPosts}`
       );
 
       if (response.ok) {
         const data = await response.json();
         
-        if (data.data && data.data.length > 0) {
-          const recentPosts = data.data.slice(0, this.config.maxPosts).map(this.formatPost);
-          console.log('Posts carregados via Instagram API:', recentPosts.length);
-          return recentPosts;
+        if (data.success && data.posts && data.posts.length > 0) {
+          console.log(`✅ ${data.posts.length} posts carregados via Supabase Function (${data.source})`);
+          return data.posts;
         } else {
-          console.warn('Nenhum post encontrado na API do Instagram');
+          console.warn('⚠️ Nenhum post retornado pela Supabase Function');
           return this.getFallbackPosts();
         }
       } else {
-        console.warn(`Instagram API error: ${response.status} ${response.statusText}`);
+        console.warn(`⚠️ Erro na Supabase Function: ${response.status} ${response.statusText}`);
         return this.getFallbackPosts();
       }
       
     } catch (error) {
-      console.error('Error fetching Instagram posts:', error);
+      console.error('❌ Erro ao buscar posts via Supabase Function:', error);
       return this.getFallbackPosts();
     }
   }
@@ -138,15 +129,15 @@ class InstagramService extends BaseService {
     ];
   }
 
-  // Método para verificar se a API está funcionando
+  // Método para verificar se a Supabase Function está funcionando
   async checkApiStatus(): Promise<boolean> {
-    if (!this.accessToken || this.accessToken.trim() === '') {
+    if (!this.supabaseUrl) {
       return false;
     }
 
     try {
       const response = await fetch(
-        `https://graph.instagram.com/me?fields=id,username&access_token=${this.accessToken}`
+        `${this.supabaseUrl}/functions/v1/instagram-posts?maxPosts=1`
       );
       return response.ok;
     } catch (error) {

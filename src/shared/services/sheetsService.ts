@@ -1,8 +1,8 @@
-// Serviço para integração com Google Sheets
+// Serviço para integração com Google Sheets via Supabase Functions
 // Para usar este serviço, você precisa:
-// 1. Criar uma planilha no Google Sheets
-// 2. Configurar o Google Apps Script
-// 3. Obter a URL do web app
+// 1. Configurar a Supabase Function google-sheets
+// 2. Configurar as variáveis de ambiente no Supabase
+// 3. Fazer deploy da function
 
 interface QuoteData {
   nome: string;
@@ -15,59 +15,82 @@ interface QuoteData {
 }
 
 class SheetsService {
-  private webAppUrl: string;
+  private supabaseUrl: string;
 
   constructor() {
-    // Substitua pela URL do seu Google Apps Script Web App
-    this.webAppUrl = import.meta.env.VITE_GOOGLE_SHEETS_URL || '';
+    // URL da Supabase Function (será configurada via variável de ambiente)
+    this.supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
   }
 
   async saveQuote(data: Omit<QuoteData, 'data' | 'origem'>): Promise<boolean> {
     try {
-      // Se não tiver URL configurada, mostrar erro
-      if (!this.webAppUrl) {
-        console.error('❌ URL do Google Sheets não configurada!');
+      // Se não tiver URL do Supabase configurada, mostrar erro
+      if (!this.supabaseUrl) {
+        console.error('❌ VITE_SUPABASE_URL não configurado!');
         console.error('📝 Crie um arquivo .env.local na raiz do projeto e adicione:');
-        console.error('VITE_GOOGLE_SHEETS_URL=sua_url_do_google_apps_script');
-        console.error('🔗 Veja o arquivo PLANILHA_INTEGRATION.md para instruções completas');
+        console.error('VITE_SUPABASE_URL=https://[PROJECT_REF].supabase.co');
+        console.error('🔗 Veja o arquivo SUPABASE_SETUP.md para instruções completas');
         return false;
       }
 
-      const quoteData: QuoteData = {
-        ...data,
-        data: new Date().toLocaleString('pt-BR'),
-        origem: 'Landing Page PG Seguros'
-      };
+      console.log('📝 Salvando cotação via Supabase Function...');
 
-      console.log('📝 Salvando cotação na planilha...');
+      // Chamar a Supabase Function em vez da API direta
+      const response = await fetch(`${this.supabaseUrl}/functions/v1/google-sheets`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-      // Usar diretamente no-cors para evitar erros de CORS
-      try {
-        const response = await fetch(this.webAppUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(quoteData),
-          mode: 'no-cors' // Usar no-cors diretamente
-        });
-
-        console.log('✅ Cotação enviada com sucesso!');
-        console.log('📊 Dados salvos:', {
-          nome: quoteData.nome,
-          email: quoteData.email,
-          telefone: quoteData.telefone,
-          tipoSeguro: quoteData.tipoSeguro
-        });
+      if (response.ok) {
+        const result = await response.json();
         
-        return true;
-      } catch (error) {
-        console.error('❌ Erro ao salvar cotação:', error);
+        if (result.success) {
+          console.log('✅ Cotação salva com sucesso via Supabase Function!');
+          console.log('📊 Dados salvos:', {
+            nome: data.nome,
+            email: data.email,
+            telefone: data.telefone,
+            tipoSeguro: data.tipoSeguro
+          });
+          return true;
+        } else {
+          console.error('❌ Erro retornado pela Supabase Function:', result.error);
+          return false;
+        }
+      } else {
+        console.error(`❌ Erro na Supabase Function: ${response.status} ${response.statusText}`);
         return false;
       }
       
     } catch (error) {
-      console.error('Erro ao salvar na planilha:', error);
+      console.error('❌ Erro ao salvar cotação via Supabase Function:', error);
+      return false;
+    }
+  }
+
+  // Método para verificar se a Supabase Function está funcionando
+  async checkApiStatus(): Promise<boolean> {
+    if (!this.supabaseUrl) {
+      return false;
+    }
+
+    try {
+      // Fazer uma requisição de teste (POST vazio para verificar se a function responde)
+      const response = await fetch(`${this.supabaseUrl}/functions/v1/google-sheets`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+      });
+      
+      // Se retornar 400 (dados inválidos), significa que a function está funcionando
+      // Se retornar 500 ou erro de rede, significa que há problema
+      return response.status === 400; // 400 = dados inválidos (function funcionando)
+    } catch (error) {
       return false;
     }
   }

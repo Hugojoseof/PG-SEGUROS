@@ -1,0 +1,193 @@
+# A string de conexão do banco de dados. Você pode modificar isso usando variáveis de ambiente.
+# https://supabase.com/docs/reference/cli/config#database
+[api]
+# Porta para a API REST
+port = 54321
+# Esquemas para expor em sua API. Tables, views e stored procedures neste esquema serão expostos via API.
+schemas = ["public", "storage", "graphql_public"]
+# Esquemas extras para adicionar à busca de caminhos
+extra_search_path = ["public", "extensions"]
+# O número máximo de linhas retornadas de uma view, tabela ou stored procedure. Limita o tamanho do payload
+# para requisições acidentais ou maliciosas.
+max_rows = 1000
+
+[api.tls]
+# Habilitar endpoints HTTPS localmente usando um certificado auto-assinado.
+enabled = false
+
+[db]
+# Porta para usar na URL do banco de dados local.
+port = 54322
+# Porta usada pelo comando db diff para inicializar o banco de dados shadow.
+shadow_port = 54320
+# A versão principal do banco de dados para usar. Isso deve ser o mesmo que o banco de dados remoto.
+# Execute `SHOW server_version;` no banco de dados remoto para verificar.
+major_version = 17
+
+[db.pooler]
+enabled = false
+# Porta para usar no pooler de conexão local.
+port = 54329
+# Especifica quando uma conexão do servidor pode ser reutilizada por outros clientes.
+# Configure um dos modos de pooler suportados: `transaction`, `session`.
+pool_mode = "transaction"
+# Quantas conexões do servidor permitir por par de usuário/banco de dados.
+default_pool_size = 20
+# Número máximo de conexões de cliente permitidas.
+max_client_conn = 100
+
+[db.migrations]
+# Se desabilitado, as migrações serão puladas durante um db push ou reset.
+enabled = true
+# Especifica uma lista ordenada de arquivos de schema que descrevem seu banco de dados.
+# Suporta padrões glob relativos ao diretório supabase: "./schemas/*.sql"
+schema_paths = []
+
+[db.seed]
+# Se habilitado, semeia o banco de dados após migrações durante um db reset.
+enabled = true
+# Especifica uma lista ordenada de arquivos seed para carregar durante db reset.
+# Suporta padrões glob relativos ao diretório supabase: "./seeds/*.sql"
+sql_paths = ["./seed.sql"]
+
+[db.network_restrictions]
+# Habilitar gerenciamento de restrições de rede.
+enabled = false
+# Lista de blocos CIDR IPv4 permitidos para conectar ao banco de dados.
+# Padrão permite todas as conexões IPv4. Defina array vazio para bloquear todos os IPs.
+allowed_cidrs = ["0.0.0.0/0"]
+# Lista de blocos CIDR IPv6 permitidos para conectar ao banco de dados.
+# Padrão permite todas as conexões IPv6. Defina array vazio para bloquear todos os IPs.
+allowed_cidrs_v6 = ["::/0"]
+
+[realtime]
+enabled = true
+# Vincular realtime via IPv4 ou IPv6. (padrão: IPv4)
+# ip_version = "IPv6"
+# O comprimento máximo em bytes dos cabeçalhos de requisição HTTP. (padrão: 4096)
+# max_header_length = 4096
+
+[studio]
+enabled = true
+# Porta para usar no Supabase Studio.
+port = 54323
+# URL externa do servidor da API que o frontend conecta.
+api_url = "http://127.0.0.1"
+# Chave da API OpenAI para usar no Supabase AI no Supabase Studio.
+# openai_api_key = "env(OPENAI_API_KEY)"
+
+[inbucket]
+enabled = true
+# Porta para usar no servidor de email de teste web interface.
+port = 54324
+# Descomente para expor portas adicionais para testar aplicações de usuário que enviam emails.
+# smtp_port = 54325
+# pop3_port = 54326
+# admin_email = "admin@email.com"
+# sender_name = "Admin"
+
+[storage]
+enabled = true
+# O tamanho máximo de arquivo permitido (ex: "5MB", "500KB").
+file_size_limit = "50MiB"
+
+# API de transformação de imagem está disponível para o plano Supabase Pro.
+# [storage.image_transformation]
+# enabled = true
+
+# Descomente para configurar buckets de armazenamento locais
+# [storage.buckets.images]
+# public = false
+# file_size_limit = "50MiB"
+# allowed_mime_types = ["image/png", "image/jpeg"]
+# objects_path = "./images"
+
+[auth]
+enabled = true
+# A URL base do seu website. Usado como uma lista de permissões para redirecionamentos e para construir URLs usados
+# em emails.
+site_url = "http://127.0.0.1:3000"
+# Uma lista de URLs *exatas* que os provedores de auth são permitidos redirecionar post autenticação.
+additional_redirect_urls = ["https://127.0.0.1:3000"]
+# Por quanto tempo os tokens são válidos, em segundos. Padrão 3600 (1 hora), máximo 604,800 (1 semana).
+jwt_expiry = 3600
+# Caminho para a chave de assinatura JWT. NÃO commite seus arquivos de chaves de assinatura no git.
+# signing_keys_path = "./signing_keys.json"
+# Se desabilitado, o refresh token nunca expirará.
+enable_refresh_token_rotation = true
+# Permitir/bloquear novos signups de usuário para seu projeto.
+enable_signup = true
+# Permitir/bloquear sign-ins anônimos para seu projeto.
+enable_anonymous_sign_ins = false
+# Permitir/bloquear teste de vinculação manual de contas
+enable_manual_linking = false
+# Senhas mais curtas que este valor serão rejeitadas como fracas. Mínimo 6, recomendado 8 ou mais.
+minimum_password_length = 6
+# Senhas que não atendem aos seguintes requisitos serão rejeitadas como fracas. Valores suportados
+# são: `letters_digits`, `lower_upper_letters_digits`, `lower_upper_letters_digits_symbols`
+password_requirements = ""
+
+[auth.rate_limit]
+# Número de emails que podem ser enviados por hora. Requer auth.email.smtp habilitado.
+email_sent = 2
+# Número de mensagens SMS que podem ser enviadas por hora. Requer auth.sms habilitado.
+sms_sent = 30
+# Número de sign-ins anônimos que podem ser feitos por hora por endereço IP. Requer enable_anonymous_sign_ins = true.
+anonymous_users = 30
+# Número de sessões que podem ser atualizadas em um intervalo de 5 minutos por endereço IP.
+token_refresh = 150
+# Número de requisições de sign up e sign-in que podem ser feitas em um intervalo de 5 minutos por endereço IP (exclui usuários anônimos).
+sign_in_sign_ups = 30
+# Número de verificações OTP / Magic link que podem ser feitas em um intervalo de 5 minutos por endereço IP.
+token_verifications = 30
+# Número de logins Web3 que podem ser feitos em um intervalo de 5 minutos por endereço IP.
+web3 = 30
+
+[auth.email]
+# Permitir/bloquear novos signups de usuário via email para seu projeto.
+enable_signup = true
+# Se habilitado, um usuário será obrigado a confirmar qualquer mudança de email em ambos os endereços, antigo e novo.
+# Se desabilitado, apenas o novo email é obrigado a confirmar.
+double_confirm_changes = true
+# Se habilitado, usuários precisam confirmar seu endereço de email antes de fazer sign in.
+enable_confirmations = false
+# Se habilitado, usuários precisarão reautenticar ou ter feito login recentemente para mudar sua senha.
+secure_password_change = false
+# Controla o tempo mínimo que deve passar antes de enviar outro email de confirmação de signup ou reset de senha.
+max_frequency = "1s"
+# Número de caracteres usados no OTP de email.
+otp_length = 6
+# Número de segundos antes do OTP de email expirar (padrão 1 hora).
+otp_expiry = 3600
+
+[auth.sms]
+# Permitir/bloquear novos signups de usuário via SMS para seu projeto.
+enable_signup = false
+# Se habilitado, usuários precisam confirmar seu número de telefone antes de fazer sign in.
+enable_confirmations = false
+# Template para enviar OTP para usuários
+template = "Your code is {{ .Code }}"
+# Controla o tempo mínimo que deve passar antes de enviar outro sms otp.
+max_frequency = "5s"
+
+[auth.sessions]
+# Forçar logout após a duração especificada.
+# timebox = "24h"
+# Forçar logout se o usuário estiver inativo por mais tempo que a duração especificada.
+# inactivity_timeout = "8h"
+
+[edge_runtime]
+enabled = true
+# Configure uma das políticas de requisição suportadas: `oneshot`, `per_worker`.
+# Use `oneshot` para hot reload, ou `per_worker` para teste de carga.
+policy = "oneshot"
+# Porta para anexar o inspetor Chrome para debugging de edge functions.
+inspector_port = 8083
+# A versão principal do Deno para usar.
+deno_version = 1
+
+[analytics]
+enabled = true
+port = 54327
+# Configure um dos backends suportados: `postgres`, `bigquery`.
+backend = "postgres"
