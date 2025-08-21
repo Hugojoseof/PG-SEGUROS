@@ -1,6 +1,6 @@
 # PG Seguros - Landing Page
 
-Landing page moderna e responsiva para a corretora de seguros PG Seguros, desenvolvida com React, TypeScript e TailwindCSS. Projeto com arquitetura escalável e padrões profissionais.
+Landing page moderna e responsiva para a corretora de seguros PG Seguros, desenvolvida com React, TypeScript e TailwindCSS. Projeto com arquitetura escalável, padrões profissionais e **backend seguro via Supabase Functions**.
 
 ## 🚀 Tecnologias
 
@@ -13,18 +13,20 @@ Landing page moderna e responsiva para a corretora de seguros PG Seguros, desenv
 - **React Router DOM** - Roteamento
 - **React Query** - Cache e sincronização de dados
 - **React Hook Form** - Gerenciamento de formulários
+- **Supabase Functions** - Backend serverless seguro
 
 ## 📋 Funcionalidades
 
 - **Design Responsivo** - Otimizado para desktop e mobile
 - **Animações Modernas** - Transições suaves e efeitos visuais
-- **Modal de Cotação** - Formulário integrado com Google Sheets/Airtable
+- **Modal de Cotação** - Formulário integrado com Google Sheets via Supabase Functions
 - **Navegação Suave** - Scroll automático entre seções
 - **UX/UI Otimizada** - Interface intuitiva e moderna
-- **Integração Instagram** - Posts reais da conta Instagram
+- **Integração Instagram** - Posts reais via Supabase Functions seguras
 - **Sistema de Notificações** - Feedback visual para ações do usuário
 - **Error Boundaries** - Captura e tratamento de erros
 - **Lazy Loading** - Carregamento otimizado de componentes
+- **Backend Seguro** - Supabase Functions para APIs protegidas
 
 ## 🏗️ Estrutura do Projeto
 
@@ -55,12 +57,19 @@ src/
 │   ├── hooks/            # Hooks customizados
 │   ├── services/         # Serviços e APIs
 │   │   ├── base/         # Serviços base
-│   │   └── instagramService.ts # Serviço Instagram
+│   │   ├── instagramService.ts # Serviço Instagram (via Supabase)
+│   │   └── sheetsService.ts    # Serviço Google Sheets (via Supabase)
 │   ├── context/          # Contextos React
 │   ├── utils/            # Utilitários
 │   ├── constants/        # Constantes da aplicação
 │   ├── assets/           # Assets (CSS, imagens)
 │   └── types/            # Tipos TypeScript
+├── supabase/             # Configuração Supabase
+│   ├── functions/        # Edge Functions
+│   │   ├── instagram-posts/  # API Instagram segura
+│   │   └── google-sheets/    # API Google Sheets segura
+│   ├── config.toml      # Configuração do projeto
+│   └── .gitignore       # Arquivos ignorados
 └── types/                # Tipos globais
 ```
 
@@ -69,6 +78,7 @@ src/
 ### Pré-requisitos
 - Node.js 18+ 
 - npm ou yarn
+- Supabase CLI (`brew install supabase/tap/supabase`)
 
 ### Instalação
 ```bash
@@ -80,6 +90,10 @@ cd PG_Seguros
 
 # Instale as dependências
 npm install
+
+# Configure o Supabase (primeira vez)
+supabase init
+supabase link --project-ref [SEU_PROJECT_REF]
 
 # Execute em modo desenvolvimento
 npm run dev
@@ -101,37 +115,54 @@ npm run build
 
 ## 🔧 Configuração
 
-### Variáveis de Ambiente
+### Variáveis de Ambiente Frontend
 Crie um arquivo `.env.local` na raiz do projeto:
 
 ```env
-# Google Sheets Integration
-VITE_GOOGLE_SHEETS_URL=sua_url_do_google_apps_script
+# Supabase Configuration
+VITE_SUPABASE_URL=https://[PROJECT_REF].supabase.co
 
 # Airtable Integration (opcional)
 VITE_AIRTABLE_API_KEY=sua_chave_do_airtable
 VITE_AIRTABLE_BASE_ID=seu_base_id
 VITE_AIRTABLE_TABLE_NAME=nome_da_tabela
-
-# Instagram Integration
-VITE_INSTAGRAM_ACCESS_TOKEN=seu_token_do_instagram
-VITE_INSTAGRAM_USER_ID=seu_user_id_do_instagram
-
-# API Configuration (opcional)
-VITE_API_BASE_URL=sua_url_base_da_api
 ```
 
-### Integração com Planilhas
-O projeto está configurado para salvar cotações em:
-- Google Sheets (via Google Apps Script)
-- Airtable (API)
-- Email (fallback)
+### Variáveis de Ambiente Backend (Supabase)
+Configure via CLI ou Dashboard do Supabase:
 
-### Integração Instagram
-- **API**: Instagram Basic Display API
-- **Funcionalidades**: Posts automáticos, fallback para dados estáticos
-- **Configuração**: Token de acesso e User ID necessários
-- **Documentação**: Veja `INSTAGRAM_INTEGRATION_GUIDE.md` para detalhes
+```bash
+# Instagram Token
+supabase secrets set INSTAGRAM_TOKEN=seu_token_do_instagram
+
+# Google Apps Script URL
+supabase secrets set GOOGLE_SCRIPT_URL=
+```
+
+### Configuração Supabase
+```bash
+# Deploy das Functions
+supabase functions deploy instagram-posts --no-verify-jwt
+supabase functions deploy google-sheets --no-verify-jwt
+
+# Verificar status
+supabase functions list
+```
+
+## 🔐 Arquitetura de Segurança
+
+### **Supabase Functions**
+- **Instagram API**: Posts buscados via Edge Function segura
+- **Google Sheets**: Cotações salvas via Edge Function segura
+- **Tokens Protegidos**: Credenciais armazenadas no backend
+- **CORS Configurado**: Acesso controlado por origem
+
+### **Benefícios de Segurança**
+- ✅ Tokens não expostos no frontend
+- ✅ Functions executam no edge (mais rápidas)
+- ✅ Logs centralizados no Supabase
+- ✅ Fácil escalabilidade e manutenção
+- ✅ Suporte a múltiplos clientes
 
 ## 📱 Responsividade
 
@@ -155,7 +186,7 @@ O projeto está configurado para salvar cotações em:
 3. **Serviços** - Catálogo de produtos (Pessoal/Empresarial)
 4. **Quem Somos** - Sobre a empresa
 5. **Depoimentos** - Testemunhos de clientes
-6. **Instagram** - Posts reais da conta Instagram
+6. **Instagram** - Posts reais via Supabase Functions
 7. **Contato** - Informações de contato
 
 ## 🏗️ Arquitetura
@@ -166,12 +197,14 @@ O projeto está configurado para salvar cotações em:
 - **Repository Pattern** - Interface consistente para dados
 - **Custom Hooks Pattern** - Lógica reutilizável
 - **Context Pattern** - Estado global da aplicação
+- **Edge Functions Pattern** - Backend serverless seguro
 
 ### **Princípios**
 - **Separation of Concerns** - Separação clara de responsabilidades
 - **Dependency Injection** - Serviços configuráveis
 - **Type Safety** - TypeScript rigoroso em todo o projeto
 - **Error Handling** - Error boundaries e fallbacks
+- **Security First** - Tokens e credenciais protegidos
 
 ### **Performance**
 - **Lazy Loading** - Componentes carregados sob demanda
@@ -179,8 +212,10 @@ O projeto está configurado para salvar cotações em:
 - **React Query** - Cache inteligente de dados
 - **Optimized Images** - Imagens otimizadas e responsivas
 - **Tree Shaking** - Eliminação de código não utilizado
+- **Edge Functions** - Execução próxima ao usuário
 
 ### **Segurança**
+- **Supabase Functions** - Backend seguro e escalável
 - **Environment Variables** - Dados sensíveis protegidos
 - **Input Validation** - Validação e sanitização de inputs
 - **Error Boundaries** - Captura segura de erros
@@ -210,6 +245,17 @@ npm run lint         # Verificação de código
 npm run build        # Build para verificar erros
 ```
 
+### **Testar Supabase Functions**
+```bash
+# Instagram Function
+curl -i --location --request GET 'https://[PROJECT_REF].supabase.co/functions/v1/instagram-posts?maxPosts=4'
+
+# Google Sheets Function
+curl -i --location --request POST 'https://[PROJECT_REF].supabase.co/functions/v1/google-sheets' \
+  --header 'Content-Type: application/json' \
+  --data '{"nome":"Teste","email":"teste@email.com","telefone":"11999999999","tipoSeguro":"Auto"}'
+```
+
 ### **Qualidade de Código**
 - ESLint configurado com regras rigorosas
 - TypeScript com configuração estrita
@@ -225,8 +271,9 @@ PG Seguros - [contato@pgseguros.com.br](mailto:contato@pgseguros.com.br)
 
 ## 📚 Documentação Adicional
 
-- **Instagram Integration**: `INSTAGRAM_INTEGRATION_GUIDE.md`
-- **Planilha Integration**: `PLANILHA_INTEGRATION.md`
+- **Supabase Functions**: Configuração e deploy das Edge Functions
+- **Instagram Integration**: Via Supabase Functions seguras
+- **Google Sheets Integration**: Via Supabase Functions seguras
 - **MVP Specification**: `mvp_pg_seguros_landing.md`
 
 ## 🚀 Deploy
@@ -246,8 +293,36 @@ npm run preview
 npm run dev
 ```
 
+### **Deploy das Functions**
+```bash
+# Deploy das Functions
+supabase functions deploy instagram-posts --no-verify-jwt
+supabase functions deploy google-sheets --no-verify-jwt
+
+# Verificar status
+supabase functions list
+```
+
+## 🔄 Gerenciamento de Clientes
+
+### **Trocar Configurações**
+```bash
+# Para novo cliente
+supabase secrets set INSTAGRAM_TOKEN=novo_token
+supabase secrets set GOOGLE_SCRIPT_URL=nova_url
+
+# Verificar configurações
+supabase secrets list
+```
+
+### **Múltiplos Clientes**
+- Cada cliente pode ter suas próprias credenciais
+- Troca instantânea sem necessidade de deploy
+- Configurações protegidas no Supabase
+- Suporte a diferentes contas Instagram e planilhas
+
 ---
 
 **Desenvolvido com ❤️ para PG Seguros**
 
-*Arquitetura profissional e escalável para landing pages modernas.*
+*Arquitetura profissional, escalável e segura para landing pages modernas com backend serverless.*
