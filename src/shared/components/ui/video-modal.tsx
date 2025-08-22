@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button";
 import { X, Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, RotateCcw } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
@@ -124,6 +124,12 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-sm w-[95vw] h-[80vh] p-0 bg-black border-0 rounded-2xl overflow-hidden">
+        {/* Componentes de acessibilidade necessários para o Radix UI */}
+        <DialogTitle className="sr-only">{title}</DialogTitle>
+        <DialogDescription className="sr-only">
+          Vídeo institucional da PG Seguros mostrando nossa história e valores
+        </DialogDescription>
+        
         {/* Header */}
         <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/80 to-transparent p-3">
           <div className="flex items-center justify-between">
