@@ -22,14 +22,21 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
 
   useEffect(() => {
     if (isOpen) {
+      // Agrupar mudanças de estado para evitar múltiplos re-renders
       setIsPlaying(false);
       setCurrentTime(0);
       setIsLoading(true);
       setHasError(false);
-      if (videoRef.current) {
-        videoRef.current.currentTime = 0;
-        videoRef.current.load();
-      }
+      
+      // Usar requestAnimationFrame para operações DOM
+      requestAnimationFrame(() => {
+        if (videoRef.current) {
+          // Agrupar operações DOM para evitar reflow
+          const video = videoRef.current;
+          video.currentTime = 0;
+          video.load();
+        }
+      });
     }
   }, [isOpen]);
 
@@ -87,10 +94,16 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = parseFloat(e.target.value);
-    if (videoRef.current) {
-      videoRef.current.currentTime = time;
-      setCurrentTime(time);
-    }
+    
+    // Atualizar estado primeiro
+    setCurrentTime(time);
+    
+    // Usar requestAnimationFrame para operação DOM
+    requestAnimationFrame(() => {
+      if (videoRef.current) {
+        videoRef.current.currentTime = time;
+      }
+    });
   };
 
   const formatTime = (time: number) => {
@@ -116,14 +129,18 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
   const retryVideo = () => {
     setHasError(false);
     setIsLoading(true);
-    if (videoRef.current) {
-      videoRef.current.load();
-    }
+    
+    // Usar requestAnimationFrame para evitar reflow
+    requestAnimationFrame(() => {
+      if (videoRef.current) {
+        videoRef.current.load();
+      }
+    });
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-sm w-[95vw] h-[80vh] p-0 bg-black border-0 rounded-2xl overflow-hidden">
+      <DialogContent className="w-[90vw] max-w-[400px] aspect-[9/16] p-0 bg-black border-0 rounded-2xl overflow-hidden">
         {/* Componentes de acessibilidade necessários para o Radix UI */}
         <DialogTitle className="sr-only">{title}</DialogTitle>
         <DialogDescription className="sr-only">
@@ -131,28 +148,28 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
         </DialogDescription>
         
         {/* Header */}
-        <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/80 to-transparent p-3">
+        <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/80 to-transparent p-2 sm:p-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-white text-sm font-semibold truncate max-w-[200px]">{title}</h2>
+            <h2 className="text-white text-xs sm:text-sm font-semibold truncate max-w-[150px] sm:max-w-[200px]">{title}</h2>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleClose}
-              className="text-white hover:bg-white/20 rounded-full p-1.5"
+              className="text-white hover:bg-white/20 rounded-full p-1 sm:p-1.5"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3 h-3 sm:w-4 sm:h-4" />
             </Button>
           </div>
         </div>
 
-        {/* Video Container - Formato 9:16 */}
-        <div className="relative w-full h-full bg-black flex items-center justify-center">
+        {/* Video Container - Formato 9:16 fixo */}
+        <div className="relative w-full h-full bg-black flex items-center justify-center aspect-[9/16]">
           {/* Loading State */}
           {isLoading && !hasError && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
               <div className="text-white text-center">
-                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white mx-auto mb-3"></div>
-                <p className="text-sm">Carregando vídeo...</p>
+                <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-2 border-white mx-auto mb-2 sm:mb-3"></div>
+                <p className="text-xs sm:text-sm">Carregando vídeo...</p>
               </div>
             </div>
           )}
@@ -160,18 +177,18 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
           {/* Error State */}
           {hasError && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
-              <div className="text-white text-center p-4">
+              <div className="text-white text-center p-3 sm:p-4">
                 <div className="text-red-400 mb-3">
-                  <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-8 h-8 sm:w-12 sm:h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
                 <p className="text-sm mb-3">Erro ao carregar o vídeo</p>
                 <Button
                   onClick={retryVideo}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 mx-auto"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm flex items-center gap-2 mx-auto"
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="w-3 h-3 sm:w-4 sm:h-4" />
                   Tentar Novamente
                 </Button>
               </div>
@@ -181,7 +198,7 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
           <video
             ref={videoRef}
             src={videoSrc}
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover"
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onPlay={() => setIsPlaying(true)}
@@ -201,24 +218,24 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
               <Button
                 size="lg"
                 onClick={togglePlay}
-                className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 rounded-full p-4 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+                className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 rounded-full p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 hover:scale-110"
               >
-                <Play className="w-8 h-8 ml-1" />
+                <Play className="w-6 h-6 sm:w-8 sm:h-8 ml-1" />
               </Button>
             </div>
           )}
 
           {/* Controls Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 sm:p-3">
             {/* Progress Bar */}
-            <div className="mb-3">
+            <div className="mb-2 sm:mb-3">
               <input
                 type="range"
                 min="0"
                 max={duration || 0}
                 value={currentTime}
                 onChange={handleSeek}
-                className="w-full h-1.5 bg-white/30 rounded-lg appearance-none cursor-pointer slider"
+                className="w-full h-1 sm:h-1.5 bg-white/30 rounded-lg appearance-none cursor-pointer slider"
                 style={{
                   background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.3) ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.3) 100%)`
                 }}
@@ -227,17 +244,17 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
 
             {/* Control Buttons */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={togglePlay}
-                  className="text-white hover:bg-white/20 rounded-full p-1.5"
+                  className="text-white hover:bg-white/20 rounded-full p-1 sm:p-1.5"
                 >
                   {isPlaying ? (
-                    <Pause className="w-4 h-4" />
+                    <Pause className="w-3 h-3 sm:w-4 sm:h-4" />
                   ) : (
-                    <Play className="w-4 h-4 ml-0.5" />
+                    <Play className="w-3 h-3 sm:w-4 sm:h-4 ml-0.5" />
                   )}
                 </Button>
 
@@ -245,12 +262,12 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
                   variant="ghost"
                   size="sm"
                   onClick={toggleMute}
-                  className="text-white hover:bg-white/20 rounded-full p-1.5"
+                  className="text-white hover:bg-white/20 rounded-full p-1 sm:p-1.5"
                 >
                   {isMuted ? (
-                    <VolumeX className="w-4 h-4" />
+                    <VolumeX className="w-3 h-3 sm:w-4 sm:h-4" />
                   ) : (
-                    <Volume2 className="w-4 h-4" />
+                    <Volume2 className="w-3 h-3 sm:w-4 sm:h-4" />
                   )}
                 </Button>
 
@@ -263,12 +280,12 @@ const VideoModal = ({ isOpen, onClose, videoSrc, title = "Conheça Nossa Histór
                 variant="ghost"
                 size="sm"
                 onClick={toggleFullscreen}
-                className="text-white hover:bg-white/20 rounded-full p-1.5"
+                className="text-white hover:bg-white/20 rounded-full p-1 sm:p-1.5"
               >
                 {isFullscreen ? (
-                  <Minimize2 className="w-4 h-4" />
+                  <Minimize2 className="w-3 h-3 sm:w-4 sm:h-4" />
                 ) : (
-                  <Maximize2 className="w-4 h-4" />
+                  <Maximize2 className="w-3 h-3 sm:w-4 sm:h-4" />
                 )}
               </Button>
             </div>

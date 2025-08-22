@@ -227,7 +227,17 @@ const QuemSomosSection = () => {
                   Falar com Especialista
                   <ArrowRight className="ml-2 w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
                 </Button>
-                <Button size="lg" variant="outline" className="border-2 border-slate-300 hover:border-blue-400 text-slate-700 px-8 sm:px-10 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-lg">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-2 border-slate-300 hover:border-blue-400 text-slate-700 px-8 sm:px-10 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-lg"
+                  onClick={() => {
+                    const servicosSection = document.getElementById('servicos');
+                    if (servicosSection) {
+                      servicosSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                >
                   Ver Todos os Seguros
                 </Button>
               </div>

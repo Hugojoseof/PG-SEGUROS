@@ -28,30 +28,32 @@ const QuoteModal = ({ isOpen, onClose, selectedService, sectionId = 'servicos' }
     }));
   }, [selectedService]);
 
-  // Scroll automático quando modal abrir
+  // Scroll automático quando modal abrir - Otimizado para evitar reflow
   useEffect(() => {
     if (isOpen) {
-      // Aguardar um pouco para o modal aparecer primeiro
-      setTimeout(() => {
-        // Encontrar a seção específica baseada no sectionId
-        const targetSection = document.getElementById(sectionId);
-        
-        if (targetSection) {
-          // Calcular o centro da seção
-          const sectionTop = targetSection.offsetTop;
-          const sectionHeight = targetSection.offsetHeight;
-          const viewportHeight = window.innerHeight;
+      // Usar requestAnimationFrame para agrupar operações DOM
+      requestAnimationFrame(() => {
+        // Aguardar um pouco para o modal aparecer primeiro
+        setTimeout(() => {
+          // Encontrar a seção específica baseada no sectionId
+          const targetSection = document.getElementById(sectionId);
           
-          // Calcular posição para centralizar a seção na viewport
-          const centerPosition = sectionTop + (sectionHeight / 2) - (viewportHeight / 2);
-          
-          // Scroll suave para o centro da seção
-          window.scrollTo({
-            top: centerPosition,
-            behavior: 'smooth'
-          });
-        }
-      }, 100);
+          if (targetSection) {
+            // Usar getBoundingClientRect para evitar reflow
+            const rect = targetSection.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Calcular posição para centralizar a seção na viewport
+            const centerPosition = scrollTop + rect.top + (rect.height / 2) - (window.innerHeight / 2);
+            
+            // Scroll suave para o centro da seção
+            window.scrollTo({
+              top: centerPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 100);
+      });
     }
   }, [isOpen, sectionId]);
 

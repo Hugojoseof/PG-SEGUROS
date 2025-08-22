@@ -62,15 +62,19 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
       
-      // Detectar seção ativa
+      // Detectar seção ativa - Otimizado para evitar reflow
       const sections = navItems.map(item => item.id);
       const scrollPosition = window.scrollY + 100;
       
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          // Usar getBoundingClientRect para evitar reflow
+          const rect = element.getBoundingClientRect();
+          const elementTop = rect.top + window.scrollY;
+          const elementHeight = rect.height;
+          
+          if (scrollPosition >= elementTop && scrollPosition < elementTop + elementHeight) {
             setActiveSection(section);
             break;
           }

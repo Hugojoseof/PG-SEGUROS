@@ -3,10 +3,13 @@ import { ChevronDown } from 'lucide-react';
 
 const ScrollIndicator: React.FC = () => {
   const scrollToNextSection = () => {
-    const nextSection = document.getElementById('servicos');
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Usar requestAnimationFrame para evitar reflow
+    requestAnimationFrame(() => {
+      const nextSection = document.getElementById('servicos');
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
   };
 
   return (
