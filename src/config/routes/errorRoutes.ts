@@ -1,8 +1,6 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { RouteObject } from 'react-router-dom';
-
-// Lazy loading das páginas de erro
-const NotFoundPage = lazy(() => import('@/shared/pages/NotFound'));
+import NotFoundPage from '@/shared/pages/NotFound';
 
 export const errorRoutes: RouteObject[] = [
   {

@@ -1,11 +1,9 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { RouteObject } from 'react-router-dom';
-
-// Lazy loading das páginas
-const HomePage = lazy(() => import('@/features/home/pages/HomePage'));
-const TermsPage = lazy(() => import('@/shared/pages/TermsPage'));
-const PrivacyPage = lazy(() => import('@/shared/pages/PrivacyPage'));
-const ServicePage = lazy(() => import('@/features/services/pages/ServicePage'));
+import HomePage from '@/features/home/pages/HomePage';
+import TermsPage from '@/shared/pages/TermsPage';
+import PrivacyPage from '@/shared/pages/PrivacyPage';
+import ServicePage from '@/features/services/pages/ServicePage';
 
 export const homeRoutes: RouteObject[] = [
   {
